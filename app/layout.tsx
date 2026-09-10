@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import dynamic from "next/dynamic";
+
 import "./globals.css";
 
 const NoxShell = dynamic(
@@ -9,28 +10,37 @@ const NoxShell = dynamic(
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://noxbuild.cc"),
+
   title: {
     default: "The Nox Build System",
     template: "Nox / %s",
   },
-  description:
-    "A fast, expressive build system for projects that refuse to be boring.",
+
+  description: "The Nox Build System",
+
   icons: {
     icon: "/assets/nox-Icon.png",
     shortcut: "/assets/nox-Icon.png",
     apple: "/assets/nox-Icon.png",
   },
+
   openGraph: {
     title: "Nox",
     description: "The Nox Build System",
     type: "website",
     siteName: "Nox",
     images: [
-      { url: "/assets/nox-Icon.png", width: 1024, height: 1024, alt: "Nox" },
+      {
+        url: "/assets/nox-Icon.png",
+        width: 1024,
+        height: 1024,
+        alt: "Nox",
+      },
     ],
   },
+
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "Nox",
     description: "The Nox Build System",
     images: ["/assets/nox-Icon.png"],
