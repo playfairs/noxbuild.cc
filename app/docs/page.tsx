@@ -11,14 +11,26 @@ const commands = [
     "Compile changed sources and link targets. `build` remains an alias.",
     "nox compile -C build",
   ],
-  ["rebuild", "Reconfigure and compile every target from scratch.", "nox rebuild --release"],
-  ["clean", "Remove generated build artifacts while preserving installed files.", "nox clean"],
+  [
+    "rebuild",
+    "Reconfigure and compile every target from scratch.",
+    "nox rebuild --release",
+  ],
+  [
+    "clean",
+    "Remove generated build artifacts while preserving installed files.",
+    "nox clean",
+  ],
   [
     "validate",
     "Check duplicate targets, missing dependencies, and dependency cycles.",
     "nox validate",
   ],
-  ["status", "Show the selected build state, project metadata, and toolchain.", "nox status"],
+  [
+    "status",
+    "Show the selected build state, project metadata, and toolchain.",
+    "nox status",
+  ],
   ["targets", "List declared targets in nox.build.", "nox targets"],
   ["graph", "Print targets in dependency order.", "nox graph"],
   ["riders", "List the language backends compiled into Nox.", "nox riders"],
@@ -41,7 +53,11 @@ const commands = [
   ],
   ["tasks", "List noxfile task names alphabetically.", "nox tasks"],
   ["version", "Print the embedded Nox version.", "nox version"],
-  ["bump-version", "Bump or set VERSION and matching references.", "nox bump-version minor"],
+  [
+    "bump-version",
+    "Bump or set VERSION and matching references.",
+    "nox bump-version minor",
+  ],
   ["help", "Show general or command-specific help.", "nox help run"],
 ];
 

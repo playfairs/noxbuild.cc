@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 type Command = {
   name: string;
@@ -20,24 +23,34 @@ const commands: Command[] = [
       "BUILD_DIR defaults to build. A positional directory selects the build directory; -C/--build-dir also selects it. If both are supplied, the positional directory wins. --reconfigure removes the selected directory before setup.",
       "The configuration is debug by default and is stored in nox.state. --release selects release; --debug selects debug. Setup never compiles sources.",
     ],
-    examples: ["nox setup", "nox setup build --release", "nox configure out --reconfigure"],
+    examples: [
+      "nox setup",
+      "nox setup build --release",
+      "nox configure out --reconfigure",
+    ],
   },
   {
     name: "build",
     aliases: "b; compile",
     usage: "nox build [BUILD_DIR] [OPTIONS]",
-    summary: "Load configured state, compile sources, and link targets in dependency order.",
+    summary:
+      "Load configured state, compile sources, and link targets in dependency order.",
     details: [
       "build loads BUILD_DIR/nox.state, reparses and validates nox.build, compiles changed sources, and creates the configured artifacts. It requires setup first unless a state file already exists.",
       "The selected build directory comes from a positional directory, -C/--build-dir, nox.config, or build in that order. A positional directory overrides -C. Targets are written below BUILD_DIR/<configuration>/<target>.",
       "compile and b dispatch to the same build behavior. --release and --debug are parsed, but an existing state's configuration controls this command; use setup or rebuild to change configuration. Repeated --compile-flag values are appended to the loaded state for this invocation.",
     ],
-    examples: ["nox build", "nox b out -j 8", "nox compile -C build --compile-flag -Wall"],
+    examples: [
+      "nox build",
+      "nox b out -j 8",
+      "nox compile -C build --compile-flag -Wall",
+    ],
   },
   {
     name: "rebuild",
     usage: "nox rebuild [OPTIONS]",
-    summary: "Delete the selected build directory, configure again, and build from scratch.",
+    summary:
+      "Delete the selected build directory, configure again, and build from scratch.",
     details: [
       "rebuild removes the selected build directory, runs setup with the selected debug or release configuration and compile flags, reloads the state, and builds every target. It does not preserve the old build artifacts.",
       "The directory is selected by -C/--build-dir, nox.config, or build. Unlike setup, rebuild does not accept a positional build directory as a special selector.",
@@ -80,41 +93,55 @@ const commands: Command[] = [
     aliases: "list",
     usage: "nox targets [OPTIONS]",
     summary: "Print declared target names, one per line.",
-    details: ["The command parses nox.build and prints targets in declaration order. It does not configure, build, or show dependency order."],
+    details: [
+      "The command parses nox.build and prints targets in declaration order. It does not configure, build, or show dependency order.",
+    ],
     examples: ["nox targets", "nox list"],
   },
   {
     name: "graph",
     usage: "nox graph [OPTIONS]",
     summary: "Print target names in dependency order.",
-    details: ["The command parses nox.build and prints dependencies before the targets that consume them. Unknown dependencies and cycles fail the command."],
+    details: [
+      "The command parses nox.build and prints dependencies before the targets that consume them. Unknown dependencies and cycles fail the command.",
+    ],
     examples: ["nox graph"],
   },
   {
     name: "riders",
     usage: "nox riders [OPTIONS]",
     summary: "List the built-in language backends.",
-    details: ["The registry lists C, C++, Rust, D, Go, Java, C#, Swift, Zig, Python, JavaScript, TypeScript, and Kotlin Riders, with the toolchain role of each backend. Availability of an external tool is checked when setup or build needs it."],
+    details: [
+      "The registry lists C, C++, Rust, D, Go, Java, C#, Swift, Zig, Python, JavaScript, TypeScript, and Kotlin Riders, with the toolchain role of each backend. Availability of an external tool is checked when setup or build needs it.",
+    ],
     examples: ["nox riders"],
   },
   {
     name: "run",
     aliases: "r",
     usage: "nox run [PATH|TARGET] [OPTIONS] [-- ARGS...]",
-    summary: "Build and run a project target, run the project, or execute a supported source file.",
+    summary:
+      "Build and run a project target, run the project, or execute a supported source file.",
     details: [
       "With no input or with ., run selects the first executable target. A directory runs the project. An existing file is dispatched through the file-handler registry. Any other input is treated as a target name.",
       "Project execution loads state, requires its stored configuration to match --debug or --release, parses and validates nox.build, builds the project, selects the requested executable, and runs its artifact. Libraries cannot be run.",
       "The file handlers are .fsx via dotnet fsi, .py via Python, .js/.jsx/.mjs via Node.js, .rb via Ruby, and .c/.cc/.cpp/.cxx/.d by temporary compilation and execution. Registered Rust, Go, Java, C#, Swift, Zig, TypeScript, and Kotlin handlers are currently marked unsupported for direct file execution. Temporary artifacts are removed from the system temporary directory after execution.",
       "Only run treats -- as an argument separator. Everything after it is passed to the child process. A child exit code is preserved; a signal termination becomes 1.",
     ],
-    examples: ["nox run", "nox r app -- --verbose", "nox run examples/python/arguments.py -- one two", "nox run examples/c/Test.c -- hello"],
+    examples: [
+      "nox run",
+      "nox r app -- --verbose",
+      "nox run examples/python/arguments.py -- one two",
+      "nox run examples/c/Test.c -- hello",
+    ],
   },
   {
     name: "test",
     usage: "nox test [OPTIONS]",
     summary: "Run the task named test from noxfile.",
-    details: ["test is exactly a shortcut for task test. It requires a readable noxfile containing a task named test; this command does not invoke a language test framework itself."],
+    details: [
+      "test is exactly a shortcut for task test. It requires a readable noxfile containing a task named test; this command does not invoke a language test framework itself.",
+    ],
     examples: ["nox test"],
   },
   {
@@ -132,13 +159,16 @@ const commands: Command[] = [
     name: "tasks",
     usage: "nox tasks [OPTIONS]",
     summary: "List task names from noxfile in alphabetical order.",
-    details: ["tasks parses the same YAML-like and legacy task formats as task, but does not execute commands. The noxfile must be readable."],
+    details: [
+      "tasks parses the same YAML-like and legacy task formats as task, but does not execute commands. The noxfile must be readable.",
+    ],
     examples: ["nox tasks"],
   },
   {
     name: "install",
     usage: "nox install [OPTIONS]",
-    summary: "Configure if needed, build, and copy install-marked targets into a prefix.",
+    summary:
+      "Configure if needed, build, and copy install-marked targets into a prefix.",
     details: [
       "install uses the selected build directory and configuration. If state is missing or has a different configuration, it automatically runs setup without command-line compile flags, then builds the project.",
       "Targets with install = true are copied to PREFIX/bin, except static and shared libraries, which go to PREFIX/lib. Directories are created as needed. Existing destination files are overwritten by the copy.",
@@ -150,14 +180,18 @@ const commands: Command[] = [
     name: "uninstall",
     usage: "nox uninstall [OPTIONS]",
     summary: "Remove installed artifacts belonging to install-marked targets.",
-    details: ["uninstall parses and validates nox.build, then removes matching files from PREFIX/bin or PREFIX/lib when they exist. It does not configure or build, and it ignores missing installed files."],
+    details: [
+      "uninstall parses and validates nox.build, then removes matching files from PREFIX/bin or PREFIX/lib when they exist. It does not configure or build, and it ignores missing installed files.",
+    ],
     examples: ["nox uninstall", "nox uninstall --prefix $HOME/.local"],
   },
   {
     name: "version",
     usage: "nox version",
     summary: "Print the version embedded from VERSION.",
-    details: ["The output is nox VERSION. The current repository version is 1.1.5; installed binaries report the VERSION file that was embedded when they were built."],
+    details: [
+      "The output is nox VERSION. The current repository version is 1.1.5; installed binaries report the VERSION file that was embedded when they were built.",
+    ],
     examples: ["nox version", "nox --version"],
   },
   {
@@ -176,24 +210,152 @@ const commands: Command[] = [
     name: "help",
     usage: "nox help [COMMAND]",
     summary: "Print general or command-specific help.",
-    details: ["Bare nox, --help, and -h select general help. Every recognized command accepts --help and -h; help is printed after option parsing. Unknown command help prints a short unknown-command message."],
+    details: [
+      "Bare nox, --help, and -h select general help. Every recognized command accepts --help and -h; help is printed after option parsing. Unknown command help prints a short unknown-command message.",
+    ],
     examples: ["nox help", "nox help install", "nox run --help"],
   },
 ];
 
 const options = [
-  ["-h", "--help", "none", "Print help for the selected command and return success. It is recognized after the command; bare -h selects general help."],
-  ["-v, -V", "--version", "none", "Print nox VERSION and return success immediately. At the first argument position, it takes precedence over command parsing."],
-  ["-C", "--build-dir PATH", "path", "Select the build directory. The default is build, then the path recorded in nox.config is used when no explicit directory was supplied. A positional directory for setup/build/compile overrides this option."],
-  ["-j", "-jN", "positive integer", "Set the requested number of parallel build workers. -j requires a separate value; -jN accepts the value attached to the short option. The default is available_parallelism(), falling back to 1. Values are clamped to at least 1 by the executor."],
-  ["", "--release", "none", "Select the release configuration for setup, rebuild, install, and run configuration checks. The option is parsed for all commands, but build uses the configuration stored in nox.state."],
-  ["", "--debug", "none", "Select the debug configuration. Debug is the default when no configuration option is supplied."],
-  ["", "--reconfigure", "none", "For setup, remove the selected build directory before recreating its state. On other commands the value is parsed but has no command-specific effect."],
-  ["", "--compile-flag FLAG", "string", "Append a compiler flag. Repeat the option to add multiple flags. Setup stores the flags in nox.state; build appends them for its invocation. Automatic setup inside install does not receive command-line compile flags."],
-  ["", "--prefix PATH", "path", "Select the install prefix for install and uninstall. Relative paths are resolved from the current project root; the default is /usr/local on Unix or C:\\Program Files\\Nox on Windows."],
+  [
+    "-h",
+    "--help",
+    "none",
+    "Print help for the selected command and return success. It is recognized after the command; bare -h selects general help.",
+  ],
+  [
+    "-v, -V",
+    "--version",
+    "none",
+    "Print nox VERSION and return success immediately. At the first argument position, it takes precedence over command parsing.",
+  ],
+  [
+    "-C",
+    "--build-dir PATH",
+    "path",
+    "Select the build directory. The default is build, then the path recorded in nox.config is used when no explicit directory was supplied. A positional directory for setup/build/compile overrides this option.",
+  ],
+  [
+    "-j",
+    "-jN",
+    "positive integer",
+    "Set the requested number of parallel build workers. -j requires a separate value; -jN accepts the value attached to the short option. The default is available_parallelism(), falling back to 1. Values are clamped to at least 1 by the executor.",
+  ],
+  [
+    "",
+    "--release",
+    "none",
+    "Select the release configuration for setup, rebuild, install, and run configuration checks. The option is parsed for all commands, but build uses the configuration stored in nox.state.",
+  ],
+  [
+    "",
+    "--debug",
+    "none",
+    "Select the debug configuration. Debug is the default when no configuration option is supplied.",
+  ],
+  [
+    "",
+    "--reconfigure",
+    "none",
+    "For setup, remove the selected build directory before recreating its state. On other commands the value is parsed but has no command-specific effect.",
+  ],
+  [
+    "",
+    "--compile-flag FLAG",
+    "string",
+    "Append a compiler flag. Repeat the option to add multiple flags. Setup stores the flags in nox.state; build appends them for its invocation. Automatic setup inside install does not receive command-line compile flags.",
+  ],
+  [
+    "",
+    "--prefix PATH",
+    "path",
+    "Select the install prefix for install and uninstall. Relative paths are resolved from the current project root; the default is /usr/local on Unix or C:\\Program Files\\Nox on Windows.",
+  ],
 ];
 
+const commandArguments: Record<string, string[]> = {
+  setup: ["BUILD_DIR (optional; defaults to build)"],
+  build: ["BUILD_DIR (optional; resolved from nox.config or build)"],
+  rebuild: [],
+  clean: [],
+  validate: [],
+  status: [],
+  targets: [],
+  graph: [],
+  riders: [],
+  run: [
+    "PATH|TARGET (optional)",
+    "ARGS... after -- are forwarded to the child",
+  ],
+  test: [],
+  task: ["NAME (required)"],
+  tasks: [],
+  install: [],
+  uninstall: [],
+  version: [],
+  "bump-version": ["major, minor, patch, or VERSION (optional)"],
+  help: ["COMMAND (optional)"],
+};
+
+const commandOptions: Record<string, string[]> = {
+  setup: [
+    "-C, --build-dir PATH",
+    "--release | --debug",
+    "--reconfigure",
+    "--compile-flag FLAG",
+  ],
+  build: [
+    "-C, --build-dir PATH",
+    "-j N or -jN",
+    "--release | --debug",
+    "--compile-flag FLAG",
+  ],
+  rebuild: [
+    "-C, --build-dir PATH",
+    "-j N or -jN",
+    "--release | --debug",
+    "--compile-flag FLAG",
+  ],
+  clean: ["-C, --build-dir PATH"],
+  status: ["-C, --build-dir PATH"],
+  run: ["-C, --build-dir PATH", "-j N or -jN", "--release | --debug"],
+  install: [
+    "-C, --build-dir PATH",
+    "-j N or -jN",
+    "--release | --debug",
+    "--prefix PATH",
+  ],
+  uninstall: ["--prefix PATH"],
+  "bump-version": [],
+};
+
+const sharedOptions = ["-h, --help", "-v, -V, --version"];
+
 export default function CommandsPage() {
+  const [selectedCommand, setSelectedCommand] = useState<Command | null>(null);
+
+  useEffect(() => {
+    if (!selectedCommand) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedCommand(null);
+      }
+    };
+
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [selectedCommand]);
+
   return (
     <div className="page section-width interior-page reference-page">
       <div className="page-intro">
@@ -206,8 +368,8 @@ export default function CommandsPage() {
         <p>
           The complete command-line surface implemented by the current Nox
           binary. Nox parses options manually, so the behavior below includes
-          the defaults, precedence rules, and side effects that are easy to
-          miss in a short usage line.
+          the defaults, precedence rules, and side effects that are easy to miss
+          in a short usage line.
         </p>
       </div>
 
@@ -242,30 +404,22 @@ export default function CommandsPage() {
           <div>
             <h2>Every supported command.</h2>
             <div className="cli-command-index">
-              {commands.map((command) => (
-                <a key={command.name} href={`#${command.name}`}>
-                  nox {command.name}
-                </a>
-              ))}
+              {commands
+                .slice()
+                .sort((left, right) => left.name.localeCompare(right.name))
+                .map((command) => (
+                  <button
+                    className="cli-command-card"
+                    key={command.name}
+                    type="button"
+                    onClick={() => setSelectedCommand(command)}
+                  >
+                    <span>nox {command.name}</span>
+                    <small>{command.summary}</small>
+                    <b aria-hidden="true">+</b>
+                  </button>
+                ))}
             </div>
-            {commands.map((command) => (
-              <article className="cli-command" id={command.name} key={command.name}>
-                <div className="cli-command-heading">
-                  <div>
-                    <p className="eyebrow">command</p>
-                    <h3>{command.name}</h3>
-                  </div>
-                  {command.aliases && <span>aliases: {command.aliases}</span>}
-                </div>
-                <pre><code>{command.usage}</code></pre>
-                <p>{command.summary}</p>
-                {command.details.map((detail) => <p key={detail}>{detail}</p>)}
-                <div className="cli-examples">
-                  <span>Examples</span>
-                  {command.examples.map((example) => <code key={example}>{example}</code>)}
-                </div>
-              </article>
-            ))}
           </div>
         </section>
 
@@ -275,12 +429,12 @@ export default function CommandsPage() {
             <h2>Short names and equivalent dispatch.</h2>
             <p>
               <code>b</code> maps to <code>build</code>; <code>r</code> maps to{" "}
-              <code>run</code>; <code>configure</code> maps to <code>setup</code>;{" "}
-              <code>compile</code> shares build behavior; <code>list</code> shares
-              targets behavior; <code>stat</code> shares status behavior; and{" "}
-              <code>bump</code> shares bump-version behavior. <code>test</code> is
-              a command shortcut for <code>task test</code>, not an alias in the
-              command resolver.
+              <code>run</code>; <code>configure</code> maps to{" "}
+              <code>setup</code>; <code>compile</code> shares build behavior;{" "}
+              <code>list</code> shares targets behavior; <code>stat</code>{" "}
+              shares status behavior; and <code>bump</code> shares bump-version
+              behavior. <code>test</code> is a command shortcut for{" "}
+              <code>task test</code>, not an alias in the command resolver.
             </p>
           </div>
         </section>
@@ -315,21 +469,123 @@ export default function CommandsPage() {
           <div>
             <h2>The files commands operate on.</h2>
             <p>
-              <code>nox.build</code> defines project metadata, settings, targets,
-              source paths or <code>glob(...)</code> patterns, dependencies,
-              compiler flags, and install markers. <code>noxfile</code> defines
-              optional named tasks. Setup writes <code>nox.state</code> and
+              <code>nox.build</code> defines project metadata, settings,
+              targets, source paths or <code>glob(...)</code> patterns,
+              dependencies, compiler flags, and install markers.{" "}
+              <code>noxfile</code> defines optional named tasks. Setup writes{" "}
+              <code>nox.state</code> and
               <code>nox.config</code>; <code>VERSION</code> supplies the project
               version used by version commands and task interpolation.
             </p>
             <div className="reference-links">
-              <Link href="/build">Read the nox.build reference <span>→</span></Link>
-              <Link href="/tasks">Read the noxfile reference <span>→</span></Link>
-              <Link href="/docs">Return to Docs <span>→</span></Link>
+              <Link href="/build">
+                Read the nox.build reference <span>→</span>
+              </Link>
+              <Link href="/tasks">
+                Read the noxfile reference <span>→</span>
+              </Link>
+              <Link href="/docs">
+                Return to Docs <span>→</span>
+              </Link>
             </div>
           </div>
         </section>
       </div>
+
+      {selectedCommand && (
+        <div
+          className="cli-modal-backdrop"
+          role="presentation"
+          onClick={() => setSelectedCommand(null)}
+        >
+          <section
+            aria-labelledby="command-panel-title"
+            aria-modal="true"
+            className="cli-modal"
+            role="dialog"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              aria-label="Close command details"
+              className="cli-modal-close"
+              type="button"
+              onClick={() => setSelectedCommand(null)}
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+            <p className="eyebrow">command details</p>
+            <div className="cli-modal-heading">
+              <h2 id="command-panel-title">nox {selectedCommand.name}</h2>
+              {selectedCommand.aliases && (
+                <span>aliases: {selectedCommand.aliases}</span>
+              )}
+            </div>
+            <div className="cli-detail-block cli-detail-purpose">
+              <span className="cli-detail-label">What it does</span>
+              <p>{selectedCommand.summary}</p>
+            </div>
+            <div className="cli-detail-block">
+              <span className="cli-detail-label">Usage</span>
+              <pre>
+                <code>{selectedCommand.usage}</code>
+              </pre>
+            </div>
+            <div className="cli-detail-grid">
+              <div className="cli-detail-block">
+                <span className="cli-detail-label">Arguments</span>
+                {commandArguments[selectedCommand.name]?.length ? (
+                  <ul>
+                    {commandArguments[selectedCommand.name].map((argument) => (
+                      <li key={argument}>
+                        <code>{argument}</code>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="cli-detail-empty">None</p>
+                )}
+              </div>
+              <div className="cli-detail-block">
+                <span className="cli-detail-label">Options &amp; flags</span>
+                <ul>
+                  {sharedOptions.map((option) => (
+                    <li key={option}>
+                      <code>{option}</code>
+                    </li>
+                  ))}
+                  {(commandOptions[selectedCommand.name] ?? []).map(
+                    (option) => (
+                      <li key={option}>
+                        <code>{option}</code>
+                      </li>
+                    ),
+                  )}
+                </ul>
+              </div>
+            </div>
+            {selectedCommand.aliases && (
+              <div className="cli-detail-block">
+                <span className="cli-detail-label">Aliases</span>
+                <p>
+                  <code>{selectedCommand.aliases}</code>
+                </p>
+              </div>
+            )}
+            <div className="cli-detail-block">
+              <span className="cli-detail-label">Behavior</span>
+              {selectedCommand.details.map((detail) => (
+                <p key={detail}>{detail}</p>
+              ))}
+            </div>
+            <div className="cli-examples">
+              <span>Examples</span>
+              {selectedCommand.examples.map((example) => (
+                <code key={example}>{example}</code>
+              ))}
+            </div>
+          </section>
+        </div>
+      )}
     </div>
   );
 }

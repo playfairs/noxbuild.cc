@@ -78,8 +78,8 @@ export default function DownloadPage() {
           <em>on your machine.</em>
         </h1>
         <p>
-          Download the latest release from GitHub. The instructions
-          on how to install Nox to your path is below the downloads.
+          Download the latest release from GitHub. The instructions on how to
+          install Nox to your path is below the downloads.
         </p>
       </div>
 
@@ -123,7 +123,8 @@ export default function DownloadPage() {
         )}
         {error && (
           <div className="error-line">
-            if you can see this, sum shi went wrong, probably rate limits on your side{" "}
+            if you can see this, sum shi went wrong, probably rate limits on
+            your side{" "}
             <a
               href="https://github.com/playfairs/nox/releases/latest"
               target="_blank"

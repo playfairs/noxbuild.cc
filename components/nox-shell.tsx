@@ -40,7 +40,7 @@ export function NoxShell({
                 ? pathname === "/"
                 : item.href === "/docs"
                   ? pathname === "/docs"
-                : pathname.startsWith(item.href);
+                  : pathname.startsWith(item.href);
             return (
               <Link
                 key={item.href}
