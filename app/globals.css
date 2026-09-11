@@ -554,6 +554,10 @@ em {
     0.9em "DM Mono",
     monospace;
 }
+.reference-page .cli-page-title {
+  line-height: 1;
+  padding-bottom: 0.08em;
+}
 .reference-grid {
   margin-top: 96px;
   border-top: 1px solid var(--line);

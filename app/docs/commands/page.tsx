@@ -360,7 +360,7 @@ export default function CommandsPage() {
     <div className="page section-width interior-page reference-page">
       <div className="page-intro">
         <p className="eyebrow">CLI reference</p>
-        <h1>
+        <h1 className="cli-page-title">
           Commands
           <br />
           <em>&amp; flags.</em>
