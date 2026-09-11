@@ -560,6 +560,96 @@ em {
 .command-item > code {
   white-space: nowrap;
 }
+.cli-table {
+  border-top: 1px solid var(--line);
+  margin-top: 26px;
+}
+.cli-row {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.7fr) minmax(0, 1.3fr);
+  gap: 24px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+.cli-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 6px 12px;
+}
+.cli-form code {
+  color: var(--paper);
+  font-size: 12px;
+}
+.cli-form span {
+  width: 100%;
+  color: var(--muted);
+  font: 10px "DM Mono", monospace;
+  text-transform: uppercase;
+}
+.cli-row p {
+  margin: 0;
+}
+.cli-command-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 24px 0 48px;
+}
+.cli-command-index a {
+  color: var(--lilac);
+  font: 12px "DM Mono", monospace;
+}
+.cli-command-index a:hover {
+  color: var(--paper);
+}
+.cli-command {
+  margin-top: 46px;
+  padding-top: 30px;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 30px;
+}
+.cli-command-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+.cli-command-heading .eyebrow {
+  margin: 0 0 9px;
+}
+.cli-command-heading h3 {
+  margin: 0;
+  color: var(--paper);
+  font: 500 22px "DM Mono", monospace;
+}
+.cli-command-heading > span {
+  color: var(--muted);
+  font: 11px "DM Mono", monospace;
+  text-align: right;
+}
+.cli-command pre {
+  margin-top: 18px;
+}
+.cli-command p {
+  margin: 17px 0 0;
+}
+.cli-examples {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  margin-top: 24px;
+}
+.cli-examples span {
+  color: var(--lilac);
+  font: 11px "DM Mono", monospace;
+  text-transform: uppercase;
+}
+.cli-examples code {
+  color: var(--paper);
+  font-size: 12px;
+}
 .reference-links {
   display: flex;
   flex-wrap: wrap;
@@ -876,6 +966,20 @@ em {
     margin-top: 13px;
     white-space: normal;
     overflow-wrap: anywhere;
+  }
+  .cli-row {
+    display: block;
+  }
+  .cli-row p {
+    margin-top: 13px;
+  }
+  .cli-command-heading {
+    display: block;
+  }
+  .cli-command-heading > span {
+    display: block;
+    margin-top: 12px;
+    text-align: left;
   }
   .property-list p {
     grid-template-columns: 1fr;

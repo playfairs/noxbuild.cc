@@ -11,26 +11,38 @@ const commands = [
     "Compile changed sources and link targets. `build` remains an alias.",
     "nox compile -C build",
   ],
+  ["rebuild", "Reconfigure and compile every target from scratch.", "nox rebuild --release"],
+  ["clean", "Remove generated build artifacts while preserving installed files.", "nox clean"],
   [
     "validate",
     "Check duplicate targets, missing dependencies, and dependency cycles.",
     "nox validate",
   ],
+  ["status", "Show the selected build state, project metadata, and toolchain.", "nox status"],
+  ["targets", "List declared targets in nox.build.", "nox targets"],
+  ["graph", "Print targets in dependency order.", "nox graph"],
+  ["riders", "List the language backends compiled into Nox.", "nox riders"],
   [
     "install",
     "Build and copy targets marked install = true into the selected prefix.",
     'nox install --prefix "$HOME/.local"',
   ],
+  ["uninstall", "Remove installed targets without compiling.", "nox uninstall"],
   [
     "run",
     "Build and run a project target or a supported source file.",
     "nox run hello",
   ],
+  ["test", "Run the task named test from noxfile.", "nox test"],
   [
     "task",
     "Find a named task in noxfile and execute its run command.",
     "nox task format",
   ],
+  ["tasks", "List noxfile task names alphabetically.", "nox tasks"],
+  ["version", "Print the embedded Nox version.", "nox version"],
+  ["bump-version", "Bump or set VERSION and matching references.", "nox bump-version minor"],
+  ["help", "Show general or command-specific help.", "nox help run"],
 ];
 
 export default function DocsPage() {
@@ -81,6 +93,11 @@ nox compile -C build`}</code>
                   <code>{example}</code>
                 </div>
               ))}
+            </div>
+            <div className="reference-links">
+              <Link href="/docs/commands">
+                Open the complete Commands &amp; Flags reference <span>→</span>
+              </Link>
             </div>
           </div>
         </section>

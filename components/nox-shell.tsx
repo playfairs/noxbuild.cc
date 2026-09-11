@@ -10,6 +10,7 @@ const navigation = [
   { href: "/tasks", label: "Tasks" },
   { href: "/build", label: "Build" },
   { href: "/docs", label: "Docs" },
+  { href: "/docs/commands", label: "CLI" },
 ];
 
 export function NoxShell({
@@ -37,6 +38,8 @@ export function NoxShell({
             const isActive =
               item.href === "/"
                 ? pathname === "/"
+                : item.href === "/docs"
+                  ? pathname === "/docs"
                 : pathname.startsWith(item.href);
             return (
               <Link
