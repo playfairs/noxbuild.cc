@@ -1,12 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import dynamic from "next/dynamic";
 
+import NoxShell from "@/components/nox-shell";
 import "./globals.css";
-
-const NoxShell = dynamic(
-  () => import("@/components/nox-shell").then((module) => module.NoxShell),
-  { ssr: false },
-);
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://noxbuild.cc"),

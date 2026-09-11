@@ -1,12 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
 :root {
-  --plum: #372748;
-  --plum-deep: #241a31;
+  --plum: #3a224d;
+  --plum-deep: #3a224d;
   --lilac: #c4a7e7;
   --paper: #f5f0fa;
   --muted: #aa9eb8;
   --line: rgba(196, 167, 231, 0.2);
+  --shell-radius: 40px;
+  --chip-radius: 999px;
+  --button-radius: 999px;
 }
 * {
   box-sizing: border-box;
@@ -27,14 +30,10 @@ a {
 .site-frame {
   display: flex;
   flex-direction: column;
-  background:
-    radial-gradient(
-      circle at 72% 6%,
-      rgba(196, 167, 231, 0.13),
-      transparent 31rem
-    ),
-    linear-gradient(140deg, var(--plum-deep) 0%, var(--plum) 100%);
-  overflow: hidden;
+  min-height: 100vh;
+  background: var(--plum);
+  overflow-x: clip;
+  padding-top: 110px;
 }
 main {
   flex: 0 0 auto;
@@ -46,19 +45,44 @@ main {
   margin: 0 auto;
 }
 .topbar {
-  height: 92px;
+  position: fixed;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  height: 78px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--line);
-  gap: 38px;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 8px 12px 8px 10px;
+  border: 2px solid rgb(144, 122, 169);
+  border-radius: var(--shell-radius);
+  background: rgba(36, 26, 49, 0.78);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 40px rgba(14, 10, 20, 0.38);
 }
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 11px;
-  font-size: 20px;
+  gap: 12px;
+  font-size: 18px;
   font-weight: 600;
   letter-spacing: -0.04em;
+  margin-left: 2px;
+  padding: 8px 14px 8px 8px;
+  border-radius: var(--shell-radius);
+  border: 1px solid rgba(196, 167, 231, 0.16);
+  background: rgba(196, 167, 231, 0.04);
+}
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: rgba(196, 167, 231, 0.1);
+  border: 1px solid rgba(196, 167, 231, 0.2);
 }
 .brand img {
   border-radius: 0;
@@ -70,25 +94,56 @@ em {
 }
 .nav-links {
   display: flex;
-  gap: 28px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
   margin-left: auto;
+  margin-right: 0;
+  padding: 6px;
+  border: 1px solid rgba(196, 167, 231, 0.12);
+  border-radius: var(--shell-radius);
+  background: rgba(196, 167, 231, 0.04);
 }
 .nav-link,
 .github-link {
   color: var(--muted);
-  font-size: 13px;
-  transition: color 0.2s;
+  font-size: 12px;
+  letter-spacing: 0.01em;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 8px 12px;
+  border-radius: var(--chip-radius);
+  border: 1px solid transparent;
 }
 .nav-link:hover,
-.nav-link.active,
-.github-link:hover {
+.nav-link.active {
   color: var(--paper);
+  background: rgba(196, 167, 231, 0.1);
+  border-color: rgba(196, 167, 231, 0.18);
 }
 .github-link {
-  border-left: 1px solid var(--line);
-  padding-left: 28px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(196, 167, 231, 0.16);
+  border-radius: 999px;
+  background: rgba(196, 167, 231, 0.03);
+}
+.github-link:hover {
+  color: var(--paper);
+  border-color: rgba(196, 167, 231, 0.26);
+  transform: translateY(-1px);
 }
 .github-link svg {
   width: 18px;
@@ -150,6 +205,7 @@ em {
   padding: 14px 18px;
   font-size: 13px;
   font-weight: 600;
+  border-radius: var(--button-radius);
 }
 .button-primary {
   background: var(--lilac);
