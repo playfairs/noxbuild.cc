@@ -164,6 +164,27 @@ nox compile -C build`}</code>
             </div>
           </div>
         </section>
+        <section className="reference-section">
+          <div className="reference-label">Deep references</div>
+          <div>
+            <h2>The parts behind the command.</h2>
+            <p>
+              Go deeper into Nox&apos;s build pipeline, compiler detection,
+              project workflows, and contributor testing. The ecosystem pages
+              cover the graphical NoxIDE editor and the Noxical lexer library.
+            </p>
+            <div className="reference-links">
+              <Link href="/docs/architecture">Architecture <span>→</span></Link>
+              <Link href="/docs/toolchains">Toolchains <span>→</span></Link>
+              <Link href="/docs/workflows">Workflows <span>→</span></Link>
+              <Link href="/docs/testing">Testing <span>→</span></Link>
+              <Link href="/docs/troubleshooting">Troubleshooting <span>→</span></Link>
+              <Link href="/docs/development">Development <span>→</span></Link>
+              <Link href="/docs/noxide">NoxIDE <span>→</span></Link>
+              <Link href="/docs/noxical">Noxical <span>→</span></Link>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

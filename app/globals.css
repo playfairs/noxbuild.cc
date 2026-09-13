@@ -167,9 +167,9 @@ em {
   right: 0;
   z-index: 30;
   display: grid;
-  grid-template-columns: repeat(2, minmax(190px, 1fr));
+  grid-template-columns: repeat(3, minmax(170px, 1fr));
   gap: 0;
-  width: min(520px, calc(100vw - 48px));
+  width: min(760px, calc(100vw - 48px));
   padding: 14px;
   border: 1px solid rgba(196, 167, 231, 0.22);
   border-radius: 22px;

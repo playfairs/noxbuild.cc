@@ -277,3 +277,275 @@ glob:
   links:
     - label: Read run arguments
       href: /docs/commands
+
+NoxIDE:
+  summary: The graphical Rust editor for Nox projects.
+  details:
+    - Provides file-backed editing, an explorer, tabs, output, and graphical Open and Save actions.
+    - Delegates configure, build, run, and other project actions to the nox executable.
+  examples:
+    - build/debug/noxide/noxide src/main.rs
+  links:
+    - label: Read the NoxIDE guide
+      href: /docs/noxide
+
+Noxical:
+  summary: The Rust lexical analyzer used for Nox syntax tooling.
+  details:
+    - Produces typed tokens with byte spans, line and column positions, and structured lexical errors.
+    - Its public API is centered on Lexer::new(source).tokenize().
+  examples:
+    - cargo test -p noxical
+  links:
+    - label: Read the Noxical guide
+      href: /docs/noxical
+
+architecture:
+  summary: The boundaries between Nox parsing, graph validation, tools, and actions.
+  details:
+    - Nox keeps language-specific behavior in toolchain and executor boundaries while the graph remains language agnostic.
+  examples:
+    - nox validate
+    - nox setup build
+  links:
+    - label: Read the architecture guide
+      href: /docs/architecture
+
+toolchains:
+  summary: The compiler, linker, archiver, and runtime programs Nox detects.
+  details:
+    - Native C and C++ tools are detected during setup; Rider-specific tools are checked when needed.
+  examples:
+    - nox status
+  links:
+    - label: Read the toolchain guide
+      href: /docs/toolchains
+
+workflows:
+  summary: Repeatable project loops for initializing, building, running, testing, and releasing.
+  details:
+    - Workflows combine Nox commands without changing the underlying build graph.
+  examples:
+    - nox init hello --language c
+    - nox build -j8
+  links:
+    - label: Read the workflow guide
+      href: /docs/workflows
+
+testing:
+  summary: The checks and integration practices used to develop Nox.
+  details:
+    - Tests cover parser behavior, graph validation, handlers, temporary artifacts, and real external project workflows.
+  examples:
+    - cargo test --all-targets
+    - nix flake check
+  links:
+    - label: Read the testing guide
+      href: /docs/testing
+
+_nox_definition: &nox_definition
+  summary: The Nox command-line build system and task runner.
+  details:
+    - Nox reads nox.build, validates a dependency graph, detects toolchains, and executes builds, runs, installs, and tasks.
+    - The nox executable always operates from the current project root unless a configured build state points elsewhere.
+  examples:
+    - nox help
+    - nox setup build
+  links:
+    - label: Read the full Docs hub
+      href: /docs
+
+nox: *nox_definition
+
+_target_definition: &target_definition
+  summary: A named build artifact in the Nox project graph.
+  details:
+    - Targets declare a kind, source files, dependencies, flags, and optional installation behavior.
+    - Target names are unique within a project and form the dependency graph that Nox orders before building.
+  examples:
+    - executable "app" { sources = ["src/main.c"] }
+    - nox targets
+  links:
+    - label: Read target declarations
+      href: /build
+
+target: *target_definition
+targets: *target_definition
+project: *target_definition
+cxx_executable: *target_definition
+static_library: *target_definition
+shared_library: *target_definition
+static: *target_definition
+shared: *target_definition
+rust_executable: *target_definition
+rust_library: *target_definition
+linker_flags: *target_definition
+
+_cli_definition: &cli_definition
+  summary: A Nox command, alias, or command-line option.
+  details:
+    - CLI values select project operations, build directories, configurations, tool flags, output, or forwarded child arguments.
+    - Every command accepts --help; command-specific behavior is documented in the CLI reference.
+  examples:
+    - nox help build
+    - nox build --release
+  links:
+    - label: Read the CLI reference
+      href: /docs/commands
+
+"--build-dir PATH": *cli_definition
+"--compile-flag": *cli_definition
+"--compile-flag FLAG": *cli_definition
+"--debug": *cli_definition
+"--formatter": *cli_definition
+"--help": *cli_definition
+"--language LANG": *cli_definition
+"--name": *cli_definition
+"--name NAME": *cli_definition
+"--no-nix": *cli_definition
+"--no-noxfile": *cli_definition
+"--prefix": *cli_definition
+"--prefix PATH": *cli_definition
+"--reconfigure": *cli_definition
+"--release": *cli_definition
+"--template NAME": *cli_definition
+"--type TYPE": *cli_definition
+"--version": *cli_definition
+"-C": *cli_definition
+"-h": *cli_definition
+"-j": *cli_definition
+"-jN": *cli_definition
+"-v, -V": *cli_definition
+debug: *cli_definition
+release: *cli_definition
+b: *cli_definition
+bump: *cli_definition
+compile: *cli_definition
+configure: *cli_definition
+list: *cli_definition
+r: *cli_definition
+stat: *cli_definition
+test: *cli_definition
+validate: *cli_definition
+setup: *cli_definition
+run: *cli_definition
+build: *cli_definition
+init: *cli_definition
+
+_syntax_definition: &syntax_definition
+  summary: A piece of Nox project or task syntax.
+  details:
+    - Syntax terms are interpreted by the nox.build or noxfile parser and are not shell commands by themselves.
+    - Their accepted values and scope are defined by the project-file and task references.
+  examples:
+    - project "app" { }
+    - 'tasks: format: run: cargo fmt --all'
+  links:
+    - label: Read the nox.build reference
+      href: /build
+    - label: Read the noxfile reference
+      href: /tasks
+
+":=": *syntax_definition
+"@": *syntax_definition
+"@nox clean + @nox build": *syntax_definition
+"NAME := VALUE": *syntax_definition
+"set NAME := VALUE": *syntax_definition
+let: *syntax_definition
+"run:": *syntax_definition
+"{{build_dir}}": *syntax_definition
+"{{version}}": *syntax_definition
+"task test": *syntax_definition
+"glob(\"src/*.c\")": *syntax_definition
+"glob(...)": *syntax_definition
+
+_tool_definition: &tool_definition
+  summary: An external compiler, linker, archiver, runtime, or tool used by Nox.
+  details:
+    - Nox looks up tools through PATH and reports a missing dependency when the relevant action needs it.
+    - The selected executable is passed argument vectors by the build executor or Runner backend.
+  examples:
+    - nox status
+    - nox riders
+  links:
+    - label: Read toolchain detection
+      href: /docs/toolchains
+
+"-D": *tool_definition
+"-I": *tool_definition
+"C": *tool_definition
+"C#": *tool_definition
+"C++": *tool_definition
+"Command": *tool_definition
+"Compile": *tool_definition
+"D": *tool_definition
+"Go": *tool_definition
+"Haskell": *tool_definition
+"Java": *tool_definition
+"JavaScript": *tool_definition
+"Kotlin": *tool_definition
+"Python": *tool_definition
+"Python / JavaScript": *tool_definition
+"Registered, not implemented": *tool_definition
+"Runtime": *tool_definition
+"Rust": *tool_definition
+"Swift": *tool_definition
+"Swift / Zig": *tool_definition
+"TypeScript": *tool_definition
+"TypeScript / Kotlin": *tool_definition
+"Zig": *tool_definition
+ar: *tool_definition
+"c++": *tool_definition
+cc: *tool_definition
+clang: *tool_definition
+clang++: *tool_definition
+g++: *tool_definition
+gcc: *tool_definition
+llvm-ar: *tool_definition
+rustc: *tool_definition
+"cargo check": *tool_definition
+"cargo fmt --all": *tool_definition
+
+_file_definition: &file_definition
+  summary: A project, build, or environment file used by Nox.
+  details:
+    - File names influence project discovery, configuration state, task behavior, installation, or development environments.
+  examples:
+    - nox status
+    - nix develop
+  links:
+    - label: Read the project workflow
+      href: /docs/workflows
+
+".git": *file_definition
+".gitignore": *file_definition
+"/usr/local/bin": *file_definition
+"flake.nix": *file_definition
+"~/.local/bin": *file_definition
+"windows-shell": *file_definition
+"cmd /C": *file_definition
+"sh -c": *file_definition
+"nox:": *file_definition
+NO_COLOR: *file_definition
+PATH: *file_definition
+
+_api_definition: &api_definition
+  summary: A public Noxical lexer API type or method.
+  details:
+    - Noxical exposes typed tokens, source positions, byte spans, and structured lexical errors for Nox syntax tooling.
+    - API names are Rust symbols exported from the noxical library crate.
+  examples:
+    - Lexer::new(source).tokenize()
+    - token.span.byte_range()
+  links:
+    - label: Read the Noxical guide
+      href: /docs/noxical
+
+Lexer: *api_definition
+Token: *api_definition
+TokenKind: *api_definition
+Span: *api_definition
+Position: *api_definition
+LexError: *api_definition
+LexErrorKind: *api_definition
+"byte_range()": *api_definition

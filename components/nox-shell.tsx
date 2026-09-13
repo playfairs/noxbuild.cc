@@ -29,6 +29,19 @@ const documentationGroups = [
     items: [
       { href: "/docs", label: "Docs" },
       { href: "/docs/commands", label: "CLI" },
+      { href: "/docs/architecture", label: "Architecture" },
+      { href: "/docs/toolchains", label: "Toolchains" },
+      { href: "/docs/workflows", label: "Workflows" },
+      { href: "/docs/testing", label: "Testing" },
+      { href: "/docs/troubleshooting", label: "Troubleshooting" },
+      { href: "/docs/development", label: "Development" },
+    ],
+  },
+  {
+    label: "Ecosystem",
+    items: [
+      { href: "/docs/noxide", label: "NoxIDE" },
+      { href: "/docs/noxical", label: "Noxical" },
       { href: "/riders", label: "Riders" },
       { href: "/runners", label: "Runners" },
     ],
@@ -227,6 +240,14 @@ export default function NoxShell({
                         {item.label === "Init" && "Create a project from an existing folder."}
                         {item.label === "Docs" && "Read the Nox reference."}
                         {item.label === "CLI" && "Explore commands and flags."}
+                        {item.label === "Architecture" && "See how Nox is structured."}
+                        {item.label === "Toolchains" && "Understand compiler detection."}
+                        {item.label === "Workflows" && "Follow common project loops."}
+                        {item.label === "Testing" && "Develop and verify Nox."}
+                        {item.label === "Troubleshooting" && "Recover from common failures."}
+                        {item.label === "Development" && "Contribute to the build system."}
+                        {item.label === "NoxIDE" && "Use the graphical editor."}
+                        {item.label === "Noxical" && "Tokenize Nox syntax."}
                         {item.label === "Riders" && "See language build backends."}
                         {item.label === "Runners" && "Run source files directly."}
                       </span>
