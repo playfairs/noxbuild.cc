@@ -1,0 +1,279 @@
+nox.build:
+  summary: The declarative project file for Nox.
+  details:
+    - Defines project metadata, settings, targets, source files, compiler flags, dependencies, and install behavior.
+    - It is intentionally separate from noxfile, which is for task automation rather than the compilation graph.
+  examples:
+    - project "hello" { executable "hello" { sources = ["src/main.c"] } }
+    - nox validate
+  links:
+    - label: Read the nox.build reference
+      href: /build
+    - label: See the full documentation
+      href: /docs
+
+noxfile:
+  summary: The optional task-automation file.
+  details:
+    - Defines named tasks such as format, check, build, and test.
+    - Tasks can run shell commands, call other tasks with @nox, and interpolate project values.
+  examples:
+    - nox task format
+    - nox tasks
+  links:
+    - label: Read the noxfile reference
+      href: /tasks
+
+Rider:
+  summary: A language and toolchain backend used to build project targets.
+  details:
+    - Riders map source extensions to compilers, linkers, runtimes, or packaging actions.
+    - The build graph stays language agnostic while each Rider owns language-specific tool behavior.
+  examples:
+    - executable "tool" { sources = ["main.go"] }
+    - nox riders
+  links:
+    - label: Explore Riders
+      href: /riders
+
+Riders:
+  summary: Nox's built-in language build backends.
+  details:
+    - The catalog includes C, C++, Rust, Haskell, D, Go, Java, C#, Swift, Zig, Python, JavaScript, TypeScript, and Kotlin.
+    - Missing external tools are reported when the relevant target needs to build.
+  examples:
+    - nox riders
+  links:
+    - label: Explore Riders
+      href: /riders
+
+Runner:
+  summary: A direct-file execution handler.
+  details:
+    - A Runner decides how nox run path/to/file launches one source file.
+    - It can invoke a runtime, compile a temporary executable, or report that direct execution is not implemented.
+  examples:
+    - nox run examples/python/Test.py
+    - nox run examples/c/Test.c -- one two
+  links:
+    - label: Explore Runners
+      href: /runners
+
+Runners:
+  summary: The direct-file execution handlers used by nox run.
+  details:
+    - Runtime handlers cover F#, Python, JavaScript, and Ruby.
+    - Compile handlers cover C, C++, Haskell, and D through temporary artifacts.
+  examples:
+    - nox run examples/javascript/arrays.js
+    - nox run examples/d/arrays.d
+  links:
+    - label: Explore Runners
+      href: /runners
+
+nox init:
+  summary: Bootstrap a Nox project from a directory.
+  details:
+    - Analyzes languages, manifests, source files, tests, Git, Nix, formatters, and existing Nox files.
+    - Writes only missing files, preserving existing project configuration.
+    - Empty projects receive a language-aware source file and matching ecosystem files.
+  examples:
+    - nox init my-project --language rust --type executable
+    - nox init --language c --formatter --no-nix
+  links:
+    - label: Read the init guide
+      href: /init
+    - label: Read CLI options
+      href: /docs/commands
+
+nox run:
+  summary: Build and run a target or execute one source file.
+  details:
+    - Directories run the project, existing files use the Runner registry, and other values are treated as target names.
+    - Everything after -- is forwarded to the child process.
+    - A child process exit code is preserved; signal termination becomes 1.
+  examples:
+    - nox run
+    - nox run hello -- --verbose
+    - nox run examples/python/arguments.py -- one two
+  links:
+    - label: Read Runner behavior
+      href: /runners
+    - label: Read the command reference
+      href: /docs/commands
+
+nox setup:
+  summary: Configure a project without compiling it.
+  details:
+    - Parses and validates nox.build, detects the C compiler, linker, and archiver, and writes build/nox.state.
+    - Debug is the default configuration; --release selects release configuration.
+  examples:
+    - nox setup build
+    - nox setup out --release --reconfigure
+  links:
+    - label: Read the build reference
+      href: /build
+    - label: Read CLI behavior
+      href: /docs/commands
+
+nox build:
+  summary: Compile changed sources and link targets.
+  details:
+    - Loads configured state, validates the graph, compiles changed sources, and processes targets in dependency order.
+    - C and C++ sources use incremental objects and compiler-generated dependency files.
+  examples:
+    - nox build
+    - nox build -C build -j8
+  links:
+    - label: Read the build reference
+      href: /build
+    - label: Read CLI behavior
+      href: /docs/commands
+
+nox install:
+  summary: Build and copy install-marked artifacts into a prefix.
+  details:
+    - Executables go to prefix/bin; static and shared libraries go to prefix/lib.
+    - The default Unix prefix is /usr/local, while --prefix selects another location.
+  examples:
+    - nox install
+    - nox install --release --prefix "$HOME/.local"
+  links:
+    - label: Read installation commands
+      href: /docs/commands
+
+executable:
+  summary: A target kind that produces a runnable program.
+  details:
+    - Generic executable targets select a language backend from their source extension.
+    - C and C++ executables are compiled and linked through the native toolchain path.
+  examples:
+    - executable "hello" { sources = ["src/main.c"] install = true }
+  links:
+    - label: Read target declarations
+      href: /build
+
+sources:
+  summary: The project-relative files that make up a target.
+  details:
+    - Every target needs at least one source.
+    - Sources can be listed explicitly or expanded with a simple glob expression.
+  examples:
+    - sources = ["src/main.c", "src/print.c"]
+    - sources = glob("src/*.c")
+  links:
+    - label: Read source properties
+      href: /build
+
+dependencies:
+  summary: Other targets that must be built first.
+  details:
+    - Dependencies must name targets declared in the same project.
+    - Nox rejects missing dependencies and cycles before compiling, then links libraries in dependency order.
+  examples:
+    - dependencies = ["support"]
+    - nox graph
+  links:
+    - label: Read dependency behavior
+      href: /build
+
+include_dirs:
+  summary: Header search directories passed to the compiler.
+  details:
+    - Each directory becomes a compiler -I argument for the target.
+  examples:
+    - include_dirs = ["include", "third_party/include"]
+  links:
+    - label: Read target properties
+      href: /build
+
+defines:
+  summary: Preprocessor definitions passed to the compiler.
+  details:
+    - Each value becomes a compiler -D definition for the target.
+  examples:
+    - defines = ["NDEBUG", "PROJECT_VERSION=2"]
+  links:
+    - label: Read target properties
+      href: /build
+
+flags:
+  summary: Additional compiler or Rider flags.
+  details:
+    - Flags are appended to the language-specific build command for a target.
+    - Global compile flags can also be supplied with --compile-flag.
+  examples:
+    - flags = ["-Wall", "-Wextra"]
+    - nox build --compile-flag -O2
+  links:
+    - label: Read target properties
+      href: /build
+
+install:
+  summary: A boolean target property that marks an artifact for installation.
+  details:
+    - Installable executables go to prefix/bin, while libraries go to prefix/lib.
+    - Existing destination files are overwritten during installation.
+  examples:
+    - install = true
+    - nox install --prefix "$HOME/.local"
+  links:
+    - label: Read installation commands
+      href: /docs/commands
+
+nox.state:
+  summary: Generated configuration state for a build directory.
+  details:
+    - Stores the project root, build directory, configuration, detected compiler, linker, archiver, and compile flags.
+    - Build, run, status, and install use this state when selecting configured output.
+  examples:
+    - build/nox.state
+    - nox status
+  links:
+    - label: Read setup behavior
+      href: /docs/commands
+
+nox.config:
+  summary: Generated project configuration that remembers a build directory.
+  details:
+    - Commands use the remembered directory when no explicit -C or --build-dir value is supplied.
+    - clean removes it when no explicit build directory was selected.
+  examples:
+    - nox.config
+    - nox status
+  links:
+    - label: Read CLI path rules
+      href: /docs/commands
+
+VERSION:
+  summary: The project version file used by Nox.
+  details:
+    - version and bump-version read this file from the project root.
+    - bump-version always updates VERSION and can update configured or discovered references.
+  examples:
+    - 1.1.6
+    - nox bump-version minor
+  links:
+    - label: Read version commands
+      href: /docs/commands
+
+glob:
+  summary: A simple source-pattern function.
+  details:
+    - The current implementation supports one asterisk and reads one directory.
+    - Recursive ** patterns, brace patterns, and multiple glob expressions are not implemented.
+  examples:
+    - sources = glob("src/*.c")
+  links:
+    - label: Read source patterns
+      href: /build
+
+--:
+  summary: The argument separator for nox run.
+  details:
+    - Nox stops parsing its own options at -- and forwards every remaining value to the child process.
+  examples:
+    - nox run examples/python/arguments.py -- red green blue
+  links:
+    - label: Read run arguments
+      href: /docs/commands

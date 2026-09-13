@@ -14,6 +14,21 @@ type Command = {
 
 const commands: Command[] = [
   {
+    name: "init",
+    usage: "nox init [PROJECT_NAME] [OPTIONS]",
+    summary: "Analyze a directory and generate missing Nox project files.",
+    details: [
+      "init uses the current directory or a named directory, reports detected languages and project files, then writes only files that do not already exist. Existing nox.build, manifests, Nix, task, README, formatter, and Git files are preserved.",
+      "Language and project type are inferred when possible. Use --language, --type, and --name for automation. Empty non-interactive projects default to Rust and executable. --template is accepted but template generation is not implemented.",
+      "By default init generates a noxfile, flake.nix, README, and .gitignore as needed. --no-noxfile and --no-nix disable those components; --formatter requests supported formatter configuration.",
+    ],
+    examples: [
+      "nox init",
+      "nox init my-project --language rust --type executable",
+      "nox init --language c --formatter --no-nix",
+    ],
+  },
+  {
     name: "setup",
     aliases: "configure",
     usage: "nox setup [BUILD_DIR] [OPTIONS]",
@@ -275,6 +290,7 @@ const options = [
 ];
 
 const commandArguments: Record<string, string[]> = {
+  init: ["PROJECT_NAME (optional)"],
   setup: ["BUILD_DIR (optional; defaults to build)"],
   build: ["BUILD_DIR (optional; resolved from nox.config or build)"],
   rebuild: [],
@@ -299,6 +315,14 @@ const commandArguments: Record<string, string[]> = {
 };
 
 const commandOptions: Record<string, string[]> = {
+  init: [
+    "--name NAME",
+    "--language LANG",
+    "--type TYPE",
+    "--template NAME",
+    "--formatter",
+    "--no-nix | --no-noxfile",
+  ],
   setup: [
     "-C, --build-dir PATH",
     "--release | --debug",

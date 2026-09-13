@@ -2,6 +2,11 @@ import Link from "next/link";
 
 const commands = [
   [
+    "init",
+    "Analyze a directory and generate missing project files for Nox.",
+    "nox init my-project --language rust",
+  ],
+  [
     "setup",
     "Parse and validate nox.build, detect the C toolchain, and write build state.",
     "nox setup build",
@@ -114,6 +119,9 @@ nox compile -C build`}</code>
               <Link href="/docs/commands">
                 Open the complete Commands &amp; Flags reference <span>→</span>
               </Link>
+              <Link href="/init">
+                Learn how <code>nox init</code> scaffolds projects <span>→</span>
+              </Link>
             </div>
           </div>
         </section>
@@ -134,6 +142,9 @@ nox compile -C build`}</code>
               <Link href="/tasks">
                 Read the noxfile tasks <span>→</span>
               </Link>
+              <Link href="/riders">
+                Read about Riders and Runners <span>→</span>
+              </Link>
             </div>
           </div>
         </section>
@@ -147,6 +158,10 @@ nox compile -C build`}</code>
               configurations, dependency-aware ordering, parallel compilation,
               and installation are supported.
             </p>
+            <div className="reference-links">
+              <Link href="/riders">Riders <span>→</span></Link>
+              <Link href="/runners">Runners <span>→</span></Link>
+            </div>
           </div>
         </section>
       </div>
