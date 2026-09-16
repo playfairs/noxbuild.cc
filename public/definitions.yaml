@@ -363,6 +363,19 @@ nox run:
     - label: Read the command reference
       href: /docs/commands
 
+nox nomlfmt:
+  summary: Format one NOML file or every NOML file under a directory.
+  details:
+    - An explicit file is formatted in place.
+    - A directory is searched recursively for .noml files while generated .git, target, and build directories are skipped.
+    - The command does not require nox setup or a project build state.
+  examples:
+    - nox nomlfmt rules.noml
+    - nox nomlfmt .
+  links:
+    - label: Read the command reference
+      href: /docs/commands
+
 nox setup:
   summary: Configure a project without compiling it.
   details:

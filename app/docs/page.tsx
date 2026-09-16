@@ -51,9 +51,9 @@ const commands = [
     "nox run nox",
   ],
   [
-    "noml",
-    "Parse and format Nox's Object Modeling Language with the standalone NOML crate.",
-    "cargo run --bin nomlfmt -- rules.noml",
+    "nomlfmt",
+    "Format one NOML file or every NOML file under a directory.",
+    "nox nomlfmt .",
   ],
   ["test", "Run the task named test from noxfile.", "nox test"],
   [

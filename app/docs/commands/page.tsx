@@ -153,6 +153,16 @@ const commands: Command[] = [
     ],
   },
   {
+    name: "nomlfmt",
+    usage: "nox nomlfmt <FILE|DIRECTORY>",
+    summary: "Format one NOML file or every NOML file under a directory.",
+    details: [
+      "An explicit file is formatted in place. A directory is searched recursively for .noml files; generated .git, target, and build directories are skipped.",
+      "nomlfmt does not require nox setup or project build state. Each file is reported after it is formatted.",
+    ],
+    examples: ["nox nomlfmt rules.noml", "nox nomlfmt ."],
+  },
+  {
     name: "test",
     usage: "nox test [OPTIONS]",
     summary: "Run the task named test from noxfile.",
@@ -349,6 +359,7 @@ const commandArguments: Record<string, string[]> = {
     "PATH|TARGET (optional)",
     "ARGS... after -- are forwarded to the child",
   ],
+  nomlfmt: [],
   test: [],
   task: ["NAME (required)"],
   tasks: [],
@@ -398,6 +409,7 @@ const commandOptions: Record<string, string[]> = {
   clean: ["-C", "--build-dir PATH"],
   status: ["-C", "--build-dir PATH"],
   run: ["-C", "--build-dir PATH", "-j", "-jN", "--release", "--debug"],
+  nomlfmt: [],
   install: [
     "PROJECT (required when nox.build defines multiple projects)",
     "-C",
