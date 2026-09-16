@@ -42,6 +42,7 @@ const documentationGroups = [
     items: [
       { href: "/docs/noxide", label: "NoxIDE" },
       { href: "/docs/noxical", label: "Noxical" },
+      { href: "/docs/noml", label: "NOML" },
       { href: "/riders", label: "Riders" },
       { href: "/runners", label: "Runners" },
     ],
@@ -248,6 +249,7 @@ export default function NoxShell({
                         {item.label === "Development" && "Contribute to the build system."}
                         {item.label === "NoxIDE" && "Use the graphical editor."}
                         {item.label === "Noxical" && "Tokenize Nox syntax."}
+                        {item.label === "NOML" && "Model Nox rules and data."}
                         {item.label === "Riders" && "See language build backends."}
                         {item.label === "Runners" && "Run source files directly."}
                       </span>

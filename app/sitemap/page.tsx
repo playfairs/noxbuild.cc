@@ -31,6 +31,7 @@ const sections = [
       ["Development", "/docs/development"],
       ["NoxIDE", "/docs/noxide"],
       ["Noxical", "/docs/noxical"],
+      ["NOML", "/docs/noml"],
       ["Riders", "/riders"],
       ["Runners", "/runners"],
     ],
