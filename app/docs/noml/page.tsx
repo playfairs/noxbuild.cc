@@ -82,6 +82,13 @@ cargo run --bin nomlfmt -- rules.noml`}</code></pre>
               the NOML parser at runtime.
             </p>
             <div className="reference-links">
+              <a
+                href="https://github.com/playfairs/nox/blob/master/src/rules/base/commands.noml"
+                target="_blank"
+                rel="noreferrer"
+              >
+                See the best practical NOML example: commands.noml <span>↗</span>
+              </a>
               <Link href="/build">Read the nox.build reference <span>→</span></Link>
               <Link href="/docs/commands">Read the command reference <span>→</span></Link>
               <Link href="/docs/testing">Read the testing workflow <span>→</span></Link>
