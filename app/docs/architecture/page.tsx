@@ -15,13 +15,13 @@ export default function ArchitecturePage() {
       <div className="reference-grid">
         <section className="reference-section"><div className="reference-label">Pipeline</div><div>
           <h2>Parse, validate, configure, execute.</h2>
-          <p><code>nox.build</code> is parsed into a project model. The graph validator rejects duplicate targets, missing dependencies, and cycles. Setup detects tools and writes <code>nox.state</code>; build reloads that state, orders targets, compiles changed inputs, and links artifacts.</p>
-          <pre><code>{`nox.build -> Project -> Graph -> BuildState
+          <p><code>nox.build</code> is parsed into one or more project models. The graph validator rejects duplicate targets, missing dependencies, and cycles within the selected project. Setup detects tools and writes <code>nox.state</code>; build reloads that state, orders targets, compiles changed inputs, and links artifacts.</p>
+          <pre><code>{`nox.build -> Projects -> Selected project -> Graph -> BuildState
                               -> compile/link/archive`}</code></pre>
         </div></section>
         <section className="reference-section"><div className="reference-label">Build actions</div><div>
           <h2>Language details stay at the edge.</h2>
-          <p>C and C++ sources use compiler-generated object and dependency files. Static libraries use the archiver; shared libraries and executables use a compiler driver as linker. Rust targets use a direct rustc branch, while Rider-backed languages have dedicated action paths.</p>
+          <p>C and C++ sources use compiler-generated object and dependency files. Static libraries use the archiver; shared libraries and executables use a compiler driver as linker. Language-qualified executable targets such as <code>executable.rust</code> and <code>executable.cpp</code> preserve explicit intent, while generic executables use source-based Rider selection.</p>
           <p>Sources inside one C/C++ target are assigned to worker threads up to <code>-j</code>. Target order remains dependency-ordered even when source compilation is parallel.</p>
         </div></section>
         <section className="reference-section"><div className="reference-label">State</div><div>

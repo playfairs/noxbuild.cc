@@ -47,8 +47,13 @@ const commands = [
   ["uninstall", "Remove installed targets without compiling.", "nox uninstall"],
   [
     "run",
-    "Build and run a project target or a supported source file.",
-    "nox run hello",
+    "Build and run a selected project target or a supported source file.",
+    "nox run nox",
+  ],
+  [
+    "noml",
+    "Parse and format Nox's Object Modeling Language with the standalone NOML crate.",
+    "cargo run --bin nomlfmt -- rules.noml",
   ],
   ["test", "Run the task named test from noxfile.", "nox test"],
   [
@@ -145,6 +150,9 @@ nox compile -C build`}</code>
               <Link href="/riders">
                 Read about Riders and Runners <span>→</span>
               </Link>
+              <Link href="/docs/noml">
+                Read the NOML reference <span>→</span>
+              </Link>
             </div>
           </div>
         </section>
@@ -170,8 +178,9 @@ nox compile -C build`}</code>
             <h2>The parts behind the command.</h2>
             <p>
               Go deeper into Nox&apos;s build pipeline, compiler detection,
-              project workflows, and contributor testing. The ecosystem pages
-              cover the graphical NoxIDE editor and the Noxical lexer library.
+              project workflows, contributor testing, and NOML. The ecosystem
+              pages cover the graphical NoxIDE editor and the Noxical lexer
+              library.
             </p>
             <div className="reference-links">
               <Link href="/docs/architecture">Architecture <span>→</span></Link>
@@ -182,6 +191,7 @@ nox compile -C build`}</code>
               <Link href="/docs/development">Development <span>→</span></Link>
               <Link href="/docs/noxide">NoxIDE <span>→</span></Link>
               <Link href="/docs/noxical">Noxical <span>→</span></Link>
+              <Link href="/docs/noml">NOML <span>→</span></Link>
             </div>
           </div>
         </section>

@@ -98,7 +98,8 @@ const commands: Command[] = [
     usage: "nox status [OPTIONS]",
     summary: "Show the selected build state's project and toolchain metadata.",
     details: [
-      "If the state is absent, status prints a warning and succeeds: not configured: BUILD_DIR. Otherwise it prints project name and version, optional description and license, edition, dependency count, root, build directory, configuration, compiler, linker, archiver, compile flags, and target count.",
+      "If the state is absent, status prints a warning and succeeds: not configured: BUILD_DIR. Otherwise it prints project name and version, optional description, license, repository, website, authors, and maintainers, plus edition, dependency count, root, build directory, configuration, compiler, linker, archiver, compile flags, and target count.",
+      "When nox.build defines more than one project, status requires the project name: nox stat PROJECT. Without it, Nox calmly lists the available project/executable choices instead of guessing.",
       "status does not parse command-line configuration flags into the state; it reports the stored state selected by the build-directory rules.",
     ],
     examples: ["nox status", "nox stat -C build"],
@@ -138,7 +139,7 @@ const commands: Command[] = [
     summary:
       "Build and run a project target, run the project, or execute a supported source file.",
     details: [
-      "With no input or with ., run selects the first executable target. A directory runs the project. An existing file is dispatched through the file-handler registry. Any other input is treated as a target name.",
+      "With no input or with ., run selects the only project when one exists. If nox.build defines multiple projects, Nox lists their executables and the exact nox run PROJECT commands, then exits without guessing. Use the project name to select one.",
       "Project execution loads state, requires its stored configuration to match --debug or --release, parses and validates nox.build, builds the project, selects the requested executable, and runs its artifact. Libraries cannot be run.",
       "The file handlers are .fsx via dotnet fsi, .py via Python, .js/.jsx/.mjs via Node.js, .rb via Ruby, and .c/.cc/.cpp/.cxx/.d by temporary compilation and execution. Registered Rust, Go, Java, C#, Swift, Zig, TypeScript, and Kotlin handlers are currently marked unsupported for direct file execution. Temporary artifacts are removed from the system temporary directory after execution.",
       "Only run treats -- as an argument separator. Everything after it is passed to the child process. A child exit code is preserved; a signal termination becomes 1.",
@@ -146,8 +147,24 @@ const commands: Command[] = [
     examples: [
       "nox run",
       "nox r app -- --verbose",
+      "nox run noml",
       "nox run examples/python/arguments.py -- one two",
       "nox run examples/c/Test.c -- hello",
+    ],
+  },
+  {
+    name: "noml",
+    usage: "cargo run -- [parse|check|format] FILE",
+    summary: "Use the standalone NOML parser and formatter crate.",
+    details: [
+      "NOML is the object-modeling language used by Nox for embedded rule files. The noml crate exposes parsing and serialization as a library and provides a default noml CLI binary.",
+      "The noml CLI supports parse, check, and format commands. format rewrites a file in canonical serialized form. The separate nomlfmt binary formats a file in place directly.",
+      "The standalone crate lives in the noml directory and has its own Cargo manifest and noxfile. It can be built independently from the main Nox executable.",
+    ],
+    examples: [
+      "cd noml && cargo run -- parse demo.noml",
+      "cd noml && cargo run -- check demo.noml",
+      "cd noml && cargo run --bin nomlfmt -- demo.noml",
     ],
   },
   {
@@ -187,6 +204,7 @@ const commands: Command[] = [
     details: [
       "install uses the selected build directory and configuration. If state is missing or has a different configuration, it automatically runs setup without command-line compile flags, then builds the project.",
       "Targets with install = true are copied to PREFIX/bin, except static and shared libraries, which go to PREFIX/lib. Directories are created as needed. Existing destination files are overwritten by the copy.",
+      "When nox.build defines multiple projects, provide the project name: nox install PROJECT. Without it, Nox lists the available project/executable choices and exits without installing an arbitrary project.",
       "The default prefix is /usr/local on Unix and C:\\Program Files\\Nox on Windows. --prefix selects another path. install does not update nox.config unless its automatic setup writes it.",
     ],
     examples: ["nox install", "nox install --release --prefix $HOME/.local"],
@@ -205,7 +223,7 @@ const commands: Command[] = [
     usage: "nox version",
     summary: "Print the version embedded from VERSION.",
     details: [
-      "The output is nox VERSION. The current repository version is 1.1.5; installed binaries report the VERSION file that was embedded when they were built.",
+      "The output is nox VERSION. The current repository version is 1.2.0; installed binaries report the VERSION file that was embedded when they were built.",
     ],
     examples: ["nox version", "nox --version"],
   },
@@ -296,7 +314,7 @@ const commandArguments: Record<string, string[]> = {
   rebuild: [],
   clean: [],
   validate: [],
-  status: [],
+  status: ["PROJECT (required when nox.build defines multiple projects)"],
   targets: [],
   graph: [],
   riders: [],
@@ -345,6 +363,7 @@ const commandOptions: Record<string, string[]> = {
   status: ["-C, --build-dir PATH"],
   run: ["-C, --build-dir PATH", "-j N or -jN", "--release | --debug"],
   install: [
+    "PROJECT (required when nox.build defines multiple projects)",
     "-C, --build-dir PATH",
     "-j N or -jN",
     "--release | --debug",
