@@ -153,21 +153,6 @@ const commands: Command[] = [
     ],
   },
   {
-    name: "noml",
-    usage: "cargo run -- [parse|check|format] FILE",
-    summary: "Use the standalone NOML parser and formatter crate.",
-    details: [
-      "NOML is the object-modeling language used by Nox for embedded rule files. The noml crate exposes parsing and serialization as a library and provides a default noml CLI binary.",
-      "The noml CLI supports parse, check, and format commands. format rewrites a file in canonical serialized form. The separate nomlfmt binary formats a file in place directly.",
-      "The standalone crate lives in the noml directory and has its own Cargo manifest and noxfile. It can be built independently from the main Nox executable.",
-    ],
-    examples: [
-      "cd noml && cargo run -- parse demo.noml",
-      "cd noml && cargo run -- check demo.noml",
-      "cd noml && cargo run --bin nomlfmt -- demo.noml",
-    ],
-  },
-  {
     name: "test",
     usage: "nox test [OPTIONS]",
     summary: "Run the task named test from noxfile.",
@@ -251,6 +236,48 @@ const commands: Command[] = [
 ];
 
 const options = [
+  [
+    "",
+    "--name NAME",
+    "string",
+    "Set the generated project name for init. If omitted, init derives the name from the selected directory or detected package metadata.",
+  ],
+  [
+    "",
+    "--language LANG",
+    "string",
+    "Select the language for init instead of relying on detection. Supported language metadata includes Rust, C, C++, D, Haskell, Swift, F#, JavaScript, TypeScript, and Python.",
+  ],
+  [
+    "",
+    "--type TYPE",
+    "string",
+    "Select the generated project type for init, such as executable or library. When omitted, init infers the type from the project contents.",
+  ],
+  [
+    "",
+    "--template NAME",
+    "string",
+    "Select an init template by name. The option is accepted by the CLI, but template generation is not currently implemented.",
+  ],
+  [
+    "",
+    "--formatter",
+    "none",
+    "Ask init to create formatter configuration when the detected language and project rules provide one. Existing formatter files are preserved.",
+  ],
+  [
+    "",
+    "--no-noxfile",
+    "none",
+    "Prevent init from creating a noxfile. This only affects initialization and does not disable existing task files.",
+  ],
+  [
+    "",
+    "--no-nix",
+    "none",
+    "Prevent init from creating flake.nix or other Nix setup files. Existing Nix files are preserved.",
+  ],
   [
     "-h",
     "--help",

@@ -86,6 +86,188 @@ nox init:
     - label: Read CLI options
       href: /docs/commands
 
+NOML:
+  summary: Nox's Object Modeling Language and standalone parser crate.
+  details:
+    - Nox uses NOML for embedded command, language, and initialization rules.
+    - The standalone noml project exposes parsing, serialization, checking, and formatting through Rust APIs and CLI binaries.
+  examples:
+    - cd noml && cargo run -- parse demo.noml
+    - cd noml && cargo run --bin nomlfmt -- demo.noml
+  links:
+    - label: Read the NOML reference
+      href: /docs/noml
+
+--name:
+  summary: Set the project name used by nox init.
+  details:
+    - Takes one project-name value.
+    - Without it, init derives a name from the selected directory or detected package metadata.
+  examples:
+    - nox init --name my-tool
+  links:
+    - label: Read init options
+      href: /docs/commands
+
+--language:
+  summary: Select the language used by nox init.
+  details:
+    - Takes one language value and bypasses language detection.
+    - The value selects language-specific source, target, formatter, and ecosystem templates when available.
+  examples:
+    - nox init --language rust
+    - nox init --language cpp
+  links:
+    - label: Read init options
+      href: /docs/commands
+
+--type:
+  summary: Select the project type used by nox init.
+  details:
+    - Takes a project type such as executable or library.
+    - When omitted, init infers the type from project contents and detected files.
+  examples:
+    - nox init --type executable
+  links:
+    - label: Read init options
+      href: /docs/commands
+
+--template:
+  summary: Select an init template by name.
+  details:
+    - Takes one template name.
+    - The option is accepted by the CLI, but template generation is not currently implemented.
+  examples:
+    - nox init --template cli
+  links:
+    - label: Read init options
+      href: /docs/commands
+
+--formatter:
+  summary: Request formatter configuration during initialization.
+  details:
+    - Init creates supported formatter configuration when the language rules provide one.
+    - Existing formatter files are never overwritten.
+  examples:
+    - nox init --formatter
+  links:
+    - label: Read init options
+      href: /docs/commands
+
+--no-noxfile:
+  summary: Disable noxfile creation during initialization.
+  details:
+    - This only affects files created by nox init.
+    - Existing noxfile files remain untouched.
+  examples:
+    - nox init --no-noxfile
+  links:
+    - label: Read init options
+      href: /docs/commands
+
+--no-nix:
+  summary: Disable Nix file creation during initialization.
+  details:
+    - This prevents init from creating flake.nix and related Nix setup files.
+    - Existing Nix files remain untouched.
+  examples:
+    - nox init --no-nix
+  links:
+    - label: Read init options
+      href: /docs/commands
+
+--help:
+  summary: Show general or command-specific help.
+  details:
+    - Place it after a command to show that command's usage, options, and behavior.
+    - With no command, it shows the general Nox command list.
+  examples:
+    - nox --help
+    - nox build --help
+  links:
+    - label: Read the command reference
+      href: /docs/commands
+
+--version:
+  summary: Print the embedded Nox version.
+  details:
+    - The long form is equivalent to -v and -V.
+    - At the first argument position it takes precedence over command parsing.
+  examples:
+    - nox --version
+  links:
+    - label: Read the command reference
+      href: /docs/commands
+
+--build-dir:
+  summary: Select the build state and artifact directory.
+  details:
+    - Takes a path and is also available as the -C short form.
+    - When omitted, Nox uses nox.config or the default build directory according to the command.
+  examples:
+    - nox build --build-dir out
+    - nox stat -C build
+  links:
+    - label: Read path and state behavior
+      href: /docs/commands
+
+--release:
+  summary: Select the release configuration.
+  details:
+    - Setup and rebuild store release as the selected configuration.
+    - Run checks its configured state against the requested configuration.
+  examples:
+    - nox setup --release
+    - nox rebuild --release
+  links:
+    - label: Read configuration behavior
+      href: /docs/commands
+
+--debug:
+  summary: Select the debug configuration.
+  details:
+    - Debug is the default configuration when no configuration flag is supplied.
+    - It is the counterpart to --release for setup, rebuild, install, and run checks.
+  examples:
+    - nox setup --debug
+  links:
+    - label: Read configuration behavior
+      href: /docs/commands
+
+--reconfigure:
+  summary: Recreate the selected build state.
+  details:
+    - For setup, removes the selected build directory before detecting tools and writing fresh nox.state.
+    - On commands that do not reconfigure, the flag is accepted but has no command-specific effect.
+  examples:
+    - nox setup --reconfigure
+  links:
+    - label: Read setup behavior
+      href: /docs/commands
+
+--compile-flag:
+  summary: Add a compiler flag to a build.
+  details:
+    - Takes one flag value and can be repeated.
+    - Setup stores the flags in nox.state; build appends them for its invocation.
+  examples:
+    - nox setup --compile-flag -Wall --compile-flag -Wextra
+  links:
+    - label: Read build options
+      href: /docs/commands
+
+--prefix:
+  summary: Select the installation prefix.
+  details:
+    - Takes a path used by install and uninstall.
+    - Relative paths resolve from the project root; the Unix default is /usr/local.
+  examples:
+    - nox install --prefix "$HOME/.local"
+    - nox uninstall --prefix "$HOME/.local"
+  links:
+    - label: Read installation commands
+      href: /docs/commands
+
 nox run:
   summary: Build and run a target or execute one source file.
   details:
