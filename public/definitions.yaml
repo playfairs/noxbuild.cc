@@ -132,6 +132,28 @@ NOML:
     - label: Read the command reference
       href: /docs/commands
 
+-v:
+  summary: Print the embedded Nox version.
+  details:
+    - -v is a short form of --version.
+    - It exits without dispatching another command.
+  examples:
+    - nox -v
+  links:
+    - label: Read the command reference
+      href: /docs/commands
+
+-V:
+  summary: Print the embedded Nox version.
+  details:
+    - -V is a short form of --version.
+    - It exits without dispatching another command.
+  examples:
+    - nox -V
+  links:
+    - label: Read the command reference
+      href: /docs/commands
+
 -C:
   summary: Select the build directory.
   details:
