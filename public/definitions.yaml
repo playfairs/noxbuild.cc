@@ -109,6 +109,63 @@ NOML:
     - label: Read init options
       href: /docs/commands
 
+-h:
+  summary: Show help for the selected command.
+  details:
+    - Use -h after a command to open that command's usage and option reference.
+    - Bare -h is equivalent to general nox help.
+  examples:
+    - nox build -h
+  links:
+    - label: Read the command reference
+      href: /docs/commands
+
+-v, -V:
+  summary: Print the embedded Nox version.
+  details:
+    - Both short forms are aliases for --version.
+    - At the first argument position they take precedence over command parsing.
+  examples:
+    - nox -v
+    - nox -V
+  links:
+    - label: Read the command reference
+      href: /docs/commands
+
+-C:
+  summary: Select the build directory.
+  details:
+    - -C takes one path and is the short form of --build-dir.
+    - The selected directory contains nox.state and configuration-specific artifacts.
+  examples:
+    - nox build -C out
+    - nox stat -C build
+  links:
+    - label: Read path and state behavior
+      href: /docs/commands
+
+-j:
+  summary: Set the number of build workers.
+  details:
+    - -j takes a separate positive integer value.
+    - The requested worker count is used for parallel source compilation and is clamped to at least one worker.
+  examples:
+    - nox build -j 8
+  links:
+    - label: Read build options
+      href: /docs/commands
+
+-jN:
+  summary: Set the number of build workers using the attached short form.
+  details:
+    - Replace N with a positive integer, such as -j8.
+    - This is equivalent to writing -j 8 and controls parallel source compilation.
+  examples:
+    - nox build -j8
+  links:
+    - label: Read build options
+      href: /docs/commands
+
 --language:
   summary: Select the language used by nox init.
   details:
