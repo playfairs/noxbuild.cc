@@ -30,9 +30,9 @@ export default function HomePage() {
             <span className="status-dot" /> The Nox Build System
           </p>
           <h1>
-            Describe the work.
+            The Nox Build
             <br />
-            <em>Let Nox order it.</em>
+            System <em className="home-title-runner">&amp; Task Runner</em>
           </h1>
           <p className="lede">
             Nox is a Rust build system and task runner. It reads a project graph
@@ -63,7 +63,9 @@ export default function HomePage() {
       <section className="quickstart" aria-labelledby="quickstart-heading">
         <div className="section-title">
           <p className="eyebrow">First build</p>
-          <h2 id="quickstart-heading">Four commands, one durable loop.</h2>
+          <h2 id="quickstart-heading">For a new project
+            
+            .</h2>
         </div>
         <div className="quickstart-code">
           <div>

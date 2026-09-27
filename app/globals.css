@@ -193,6 +193,9 @@ main {
   line-height: 1.03;
   letter-spacing: 0;
 }
+.home-title-runner {
+  font-size: 0.78em;
+}
 .lede {
   max-width: 640px;
   color: var(--muted);

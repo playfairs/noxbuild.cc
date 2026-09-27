@@ -77,7 +77,7 @@ export default function DownloadPage() {
         <h1>
           Get Nox.
           <br />
-          <em>Keep it current.</em>
+          <em>Or update it.</em>
         </h1>
         <p>
           Install a release binary, build from source with Cargo, or bring an
