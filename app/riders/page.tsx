@@ -18,7 +18,7 @@ const riders = [
   [
     "Rust",
     ".rs",
-    "rustc",
+    "rustc or cargo",
     "Direct rustc builds, or Cargo for a Rust executable with Cargo.toml.",
   ],
   ["Haskell", ".hs, .lhs", "ghc", "Builds an executable through GHC."],
@@ -41,7 +41,7 @@ const riders = [
   ],
   ["JavaScript", ".js, .jsx", "node", "Syntax-checks and packages the script."],
   ["TypeScript", ".ts, .tsx", "tsc", "Transpiles to CommonJS JavaScript."],
-  ["Kotlin", ".kt, .kts", "kotlinc", "Builds a runnable JAR."],
+  ["Kotlin", ".kt, .kts", "kotlin or gradle", "Builds a runnable JAR."],
 ];
 
 export default function RidersPage() {

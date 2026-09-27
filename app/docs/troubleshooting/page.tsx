@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ApologyPrompt from "./apology-prompt";
 
 export const metadata = { title: "Troubleshooting" };
 
@@ -42,11 +43,7 @@ export default function TroubleshootingPage() {
     <div className="page section-width interior-page reference-page">
       <div className="page-intro">
         <p className="eyebrow">Recovery guide</p>
-        <h1>
-          When Nox
-          <br />
-          <em>fights back.</em>
-        </h1>
+        <ApologyPrompt />
         <p>
           Common Nox failures, what they mean, and the smallest useful next
           check.
