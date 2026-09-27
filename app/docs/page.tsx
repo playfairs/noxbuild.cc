@@ -90,7 +90,18 @@ export default function DocsPage() {
         <section className="reference-section">
           <div className="reference-label">Start here</div>
           <div>
-            <h2>Install, configure, build.</h2>
+            <h2>What Nox is, then how to use it.</h2>
+            <p>
+              New to build tools or programming? Start with About Nox. It
+              explains the build system, task runner, dependency graph, and
+              day-to-day workflow in either technical or no-prerequisites
+              language.
+            </p>
+            <div className="reference-links">
+              <Link href="/docs/about">
+                Read About Nox <span>→</span>
+              </Link>
+            </div>
             <p>
               From a Nox source checkout, bootstrap the executable with Cargo,
               then use Nox from the project root containing{" "}

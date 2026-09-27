@@ -22,6 +22,7 @@ const sections = [
     label: "Documentation",
     items: [
       ["Docs", "/docs"],
+      ["About Nox", "/docs/about"],
       ["CLI", "/docs/commands"],
       ["Architecture", "/docs/architecture"],
       ["Toolchains", "/docs/toolchains"],

@@ -425,6 +425,55 @@ main {
   font-size: 16px;
   line-height: 1.65;
 }
+.about-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  min-height: 40px;
+  margin: -14px 0 36px;
+}
+.about-toolbar > span {
+  color: var(--muted);
+  font:
+    10px "DM Mono",
+    monospace;
+  letter-spacing: 0.04em;
+}
+.dummy-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid rgba(196, 167, 231, 0.36);
+  border-radius: 2px;
+  background: rgba(196, 167, 231, 0.08);
+  color: var(--paper);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    border-color 0.16s ease,
+    background 0.16s ease,
+    color 0.16s ease;
+}
+.dummy-toggle svg {
+  color: var(--lilac);
+}
+.dummy-toggle:hover,
+.dummy-toggle[aria-pressed="true"] {
+  border-color: var(--lilac);
+  background: rgba(196, 167, 231, 0.16);
+}
+.dummy-toggle:focus-visible {
+  outline: 2px solid var(--lilac);
+  outline-offset: 3px;
+}
+.about-grid {
+  margin-top: 0;
+}
 .reference-grid {
   border-top: 1px solid var(--line);
 }
@@ -1058,6 +1107,12 @@ main {
   }
   .reference-section {
     padding: 28px 0 32px;
+  }
+  .about-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 9px;
+    margin-bottom: 28px;
   }
   .reference-section h2 {
     font-size: 23px;

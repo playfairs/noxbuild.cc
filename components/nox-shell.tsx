@@ -48,14 +48,15 @@ const navGroups = [
   {
     label: "Reference",
     items: [
-      { href: "/docs", label: "Documentation", icon: BookOpen, exact: true },
+      { href: "/docs/about", label: "About Nox", icon: Compass },
+      { href: "/docs/architecture", label: "Architecture", icon: ListTree },
       {
         href: "/docs/commands",
-        label: "Commands & flags",
+        label: "Commands & Flags",
         icon: TerminalSquare,
       },
+      { href: "/docs", label: "Documentation", icon: BookOpen, exact: true },
       { href: "/docs/toolchains", label: "Toolchains", icon: Wrench },
-      { href: "/docs/architecture", label: "Architecture", icon: ListTree },
       {
         href: "/docs/troubleshooting",
         label: "Troubleshooting",
