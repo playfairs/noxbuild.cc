@@ -3,7 +3,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  Blocks,
+  BookOpen,
+  Code2,
+  Compass,
+  Download,
+  Hammer,
+  ListTree,
+  Play,
+  TerminalSquare,
+  Wrench,
+} from "lucide-react";
 import { parse } from "yaml";
 
 type Definition = {
@@ -12,137 +24,105 @@ type Definition = {
   examples: string[];
   links: { label: string; href: string }[];
 };
-
 type Definitions = Record<string, Definition>;
 
-const documentationGroups = [
+const navGroups = [
   {
-    label: "Workflow",
+    label: "Start here",
     items: [
-      { href: "/tasks", label: "Tasks" },
-      { href: "/build", label: "Build" },
-      { href: "/init", label: "Init" },
+      { href: "/", label: "Overview", icon: Compass, exact: true },
+      { href: "/download", label: "Install Nox", icon: Download },
+      { href: "/docs/workflows", label: "Workflows", icon: Play },
+    ],
+  },
+  {
+    label: "Build system",
+    items: [
+      { href: "/build", label: "nox.build", icon: Blocks },
+      { href: "/tasks", label: "noxfile tasks", icon: TerminalSquare },
+      { href: "/init", label: "Project init", icon: Hammer },
+      { href: "/riders", label: "Riders", icon: Wrench },
+      { href: "/runners", label: "Runners", icon: Play },
     ],
   },
   {
     label: "Reference",
     items: [
-      { href: "/docs", label: "Docs" },
-      { href: "/docs/commands", label: "CLI" },
-      { href: "/docs/architecture", label: "Architecture" },
-      { href: "/docs/toolchains", label: "Toolchains" },
-      { href: "/docs/workflows", label: "Workflows" },
-      { href: "/docs/testing", label: "Testing" },
-      { href: "/docs/troubleshooting", label: "Troubleshooting" },
-      { href: "/docs/development", label: "Development" },
+      { href: "/docs", label: "Documentation", icon: BookOpen, exact: true },
+      {
+        href: "/docs/commands",
+        label: "Commands & flags",
+        icon: TerminalSquare,
+      },
+      { href: "/docs/toolchains", label: "Toolchains", icon: Wrench },
+      { href: "/docs/architecture", label: "Architecture", icon: ListTree },
+      {
+        href: "/docs/troubleshooting",
+        label: "Troubleshooting",
+        icon: Compass,
+      },
     ],
   },
   {
     label: "Ecosystem",
     items: [
-      { href: "/docs/noxide", label: "NoxIDE" },
-      { href: "/docs/noxical", label: "Noxical" },
-      { href: "/docs/noml", label: "NOML" },
-      { href: "/riders", label: "Riders" },
-      { href: "/runners", label: "Runners" },
+      { href: "/docs/noml", label: "NOML", icon: BookOpen },
+      { href: "/docs/development", label: "Development", icon: Wrench },
     ],
   },
 ];
-
-const MENU_DELAY_MS = 50;
 
 export default function NoxShell({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const pathname = usePathname();
-  const [isDocumentationOpen, setDocumentationOpen] = useState(false);
   const [definitions, setDefinitions] = useState<Definitions>({});
   const [definition, setDefinition] = useState<{
     term: string;
     data: Definition;
   } | null>(null);
-  const menuTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const documentationPaths = documentationGroups.flatMap((group) =>
-    group.items.map((item) => item.href),
-  );
-  const documentationIsActive = documentationPaths.some((path) =>
-    pathname.startsWith(path),
-  );
-
-  const clearMenuTimer = () => {
-    if (menuTimer.current) {
-      clearTimeout(menuTimer.current);
-      menuTimer.current = null;
-    }
-  };
-
-  const scheduleMenu = (open: boolean) => {
-    clearMenuTimer();
-    menuTimer.current = setTimeout(() => {
-      setDocumentationOpen(open);
-      menuTimer.current = null;
-    }, MENU_DELAY_MS);
-  };
-
-  useEffect(() => {
-    setDocumentationOpen(false);
-    setDefinition(null);
-    clearMenuTimer();
-  }, [pathname]);
-
-  useEffect(() => clearMenuTimer, []);
-
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    if (definition) {
-      document.body.style.overflow = "hidden";
-    }
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [definition]);
 
   useEffect(() => {
     fetch("/definitions.yaml")
       .then((response) => response.text())
-      .then((contents) => setDefinitions(parse(contents) as Definitions))
+      .then((contents) =>
+        setDefinitions(parse(contents, { uniqueKeys: false }) as Definitions),
+      )
       .catch(() => setDefinitions({}));
   }, []);
 
   useEffect(() => {
+    setDefinition(null);
     const terms = Array.from(document.querySelectorAll("main code")).filter(
       (term) => !term.closest("pre"),
     );
     const activate = (event: Event) => {
       const element = event.currentTarget as HTMLElement;
       const term = element.textContent?.trim() ?? "";
-      const matchingEntry = Object.entries(definitions).find(
+      const entry = Object.entries(definitions).find(
         ([key]) => term === key || term.startsWith(`${key} `),
       );
-      const matchingDefinition = matchingEntry?.[1];
-      const fallback: Definition = {
-        summary: term.startsWith("nox ")
-          ? "A Nox CLI command for project configuration, building, running, or task automation."
-          : "A highlighted Nox concept or page term.",
-        details: [
-          "This term is part of the Nox documentation vocabulary. Select a related reference from the navigation to learn more.",
-        ],
-        examples: [],
-        links: [{ label: "Open Documentation", href: "/docs" }],
-      };
       setDefinition({
         term,
-        data: matchingDefinition ?? fallback,
+        data: entry?.[1] ?? {
+          summary: term.startsWith("nox ")
+            ? "A Nox CLI command for configuring, building, running, or automating a project."
+            : "A term used in the Nox build-system reference.",
+          details: [
+            "Open a related reference page to see how this concept participates in the project workflow.",
+          ],
+          examples: [],
+          links: [{ label: "Open documentation", href: "/docs" }],
+        },
       });
     };
     const handleKeyDown = (event: Event) => {
-      const keyboardEvent = event as KeyboardEvent;
-      if (keyboardEvent.key === "Enter" || keyboardEvent.key === " ") {
-        keyboardEvent.preventDefault();
-        activate(keyboardEvent);
+      const keyEvent = event as KeyboardEvent;
+      if (keyEvent.key === "Enter" || keyEvent.key === " ") {
+        keyEvent.preventDefault();
+        activate(keyEvent);
       }
     };
-
     terms.forEach((term) => {
       term.classList.add("definition-term");
       term.setAttribute("role", "button");
@@ -150,117 +130,66 @@ export default function NoxShell({
       term.addEventListener("click", activate);
       term.addEventListener("keydown", handleKeyDown);
     });
-    return () => {
+    return () =>
       terms.forEach((term) => {
         term.classList.remove("definition-term");
         term.removeEventListener("click", activate);
         term.removeEventListener("keydown", handleKeyDown);
       });
-    };
   }, [definitions, pathname]);
 
   return (
     <div className="site-frame">
-      <header className="topbar">
+      <aside className="site-rail">
         <Link className="brand" href="/" aria-label="Nox home">
-          <div className="brand-mark">
+          <span className="brand-mark">
             <Image
               src="/assets/nox-Icon.svg"
               alt=""
-              width={26}
-              height={26}
+              width={30}
+              height={30}
               priority
             />
-          </div>
+          </span>
           <span>
             nox<span className="brand-dot">.</span>build
           </span>
         </Link>
-        <nav className="nav-links" aria-label="Main navigation">
-          <Link
-            href="/"
-            className={pathname === "/" ? "nav-link active" : "nav-link"}
-          >
-            Overview
-          </Link>
-          <Link
-            href="/download"
-            className={
-              pathname.startsWith("/download") ? "nav-link active" : "nav-link"
-            }
-          >
-            Download
-          </Link>
-          <Link
-            href="/sitemap"
-            className={
-              pathname.startsWith("/sitemap") ? "nav-link active" : "nav-link"
-            }
-          >
-            Sitemap
-          </Link>
-          <div
-            className={isDocumentationOpen ? "nav-menu open" : "nav-menu"}
-            onBlur={() => scheduleMenu(false)}
-            onFocus={() => scheduleMenu(true)}
-            onMouseEnter={() => scheduleMenu(true)}
-            onMouseLeave={() => scheduleMenu(false)}
-          >
-            <button
-              type="button"
-              className={
-                documentationIsActive
-                  ? "nav-link nav-menu-trigger active"
-                  : "nav-link nav-menu-trigger"
-              }
-              aria-expanded={isDocumentationOpen}
-              aria-haspopup="true"
-            >
-              Documentation <span className="nav-menu-chevron">+</span>
-            </button>
-            <div className="nav-dropdown" aria-hidden={!isDocumentationOpen}>
-              {documentationGroups.map((group) => (
-                <div className="nav-dropdown-group" key={group.label}>
-                  <span className="nav-dropdown-label">{group.label}</span>
-                  {group.items.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={
-                        (item.href === "/docs"
-                          ? pathname === "/docs"
-                          : pathname.startsWith(item.href))
-                          ? "nav-dropdown-link active"
-                          : "nav-dropdown-link"
-                      }
-                    >
-                      <strong>{item.label}</strong>
-                      <span>
-                        {item.label === "Tasks" && "Automate work around builds."}
-                        {item.label === "Build" && "Declare targets and dependencies."}
-                        {item.label === "Init" && "Create a project from an existing folder."}
-                        {item.label === "Docs" && "Read the Nox reference."}
-                        {item.label === "CLI" && "Explore commands and flags."}
-                        {item.label === "Architecture" && "See how Nox is structured."}
-                        {item.label === "Toolchains" && "Understand compiler detection."}
-                        {item.label === "Workflows" && "Follow common project loops."}
-                        {item.label === "Testing" && "Develop and verify Nox."}
-                        {item.label === "Troubleshooting" && "Recover from common failures."}
-                        {item.label === "Development" && "Contribute to the build system."}
-                        {item.label === "NoxIDE" && "Use the graphical editor."}
-                        {item.label === "Noxical" && "Tokenize Nox syntax."}
-                        {item.label === "NOML" && "Model Nox rules and data."}
-                        {item.label === "Riders" && "See language build backends."}
-                        {item.label === "Runners" && "Run source files directly."}
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
+        <p className="rail-kicker">Build & automation system</p>
+        <nav className="rail-nav" aria-label="Documentation navigation">
+          {navGroups.map((group) => (
+            <section className="nav-group" key={group.label}>
+              <h2>{group.label}</h2>
+              {group.items.map((item) => {
+                const Icon = item.icon;
+                const active = item.exact
+                  ? pathname === item.href
+                  : pathname.startsWith(item.href);
+                return (
+                  <Link
+                    className={active ? "nav-link active" : "nav-link"}
+                    href={item.href}
+                    key={item.href}
+                  >
+                    <Icon aria-hidden="true" size={15} strokeWidth={1.7} />
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
+            </section>
+          ))}
         </nav>
-      </header>
+        <div className="rail-footer">
+          <a
+            href="https://github.com/playfairs/nox"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Code2 aria-hidden="true" size={15} /> Source on GitHub
+          </a>
+          <Link href="/sitemap">All pages</Link>
+        </div>
+      </aside>
       <main>{children}</main>
       {definition && (
         <div
@@ -281,18 +210,18 @@ export default function NoxShell({
               aria-label="Close definition"
               onClick={() => setDefinition(null)}
             >
-              <span aria-hidden="true">×</span>
+              x
             </button>
-            <p className="eyebrow">Nox definition</p>
+            <p className="eyebrow">Nox reference</p>
             <div className="cli-modal-heading">
               <h2 id="definition-title">{definition.term}</h2>
             </div>
-            <div className="cli-detail-purpose">
-              <span className="cli-detail-label">What Nox means</span>
+            <div className="cli-detail-block cli-detail-purpose">
+              <span className="cli-detail-label">What it means</span>
               <p>{definition.data.summary}</p>
             </div>
             <div className="cli-detail-block">
-              <span className="cli-detail-label">In depth</span>
+              <span className="cli-detail-label">Details</span>
               {definition.data.details.map((detail) => (
                 <p key={detail}>{detail}</p>
               ))}
@@ -312,7 +241,11 @@ export default function NoxShell({
                 <span className="cli-detail-label">Related pages</span>
                 <div className="reference-links">
                   {definition.data.links.map((link) => (
-                    <Link href={link.href} key={link.href} onClick={() => setDefinition(null)}>
+                    <Link
+                      href={link.href}
+                      key={link.href}
+                      onClick={() => setDefinition(null)}
+                    >
                       {link.label} <span>→</span>
                     </Link>
                   ))}
@@ -322,20 +255,6 @@ export default function NoxShell({
           </section>
         </div>
       )}
-      <footer className="footer">
-        <Image
-          className="footer-mark"
-          src="/assets/nox-Icon.svg"
-          alt="Nox"
-          width={24}
-          height={20}
-        />
-        <span>Build with Nox.</span>
-        <span className="footer-spacer" />
-        <a href="https://unlicense.org/" target="_blank" rel="noreferrer">
-          The Unlicense
-        </a>
-      </footer>
     </div>
   );
 }

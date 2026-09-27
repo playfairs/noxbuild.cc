@@ -23,12 +23,16 @@ export default function NotFound() {
           <div>
             <h2>Start from a known target.</h2>
             <p>
-              Return to the overview or open the documentation index to find
-              the command, build, task, Rider, or Runner reference you need.
+              Return to the overview or open the documentation index to find the
+              command, build, task, Rider, or Runner reference you need.
             </p>
             <div className="reference-links">
-              <Link href="/">Go to Overview <span>→</span></Link>
-              <Link href="/docs">Open Documentation <span>→</span></Link>
+              <Link href="/">
+                Go to Overview <span>→</span>
+              </Link>
+              <Link href="/docs">
+                Open Documentation <span>→</span>
+              </Link>
             </div>
           </div>
         </section>

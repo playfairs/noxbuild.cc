@@ -23,7 +23,8 @@ export default function NomlPage() {
           <div className="reference-label">A small document</div>
           <div>
             <h2>Objects, arrays, and rulesets.</h2>
-            <pre><code>{`ruleset "commands" {
+            <pre>
+              <code>{`ruleset "commands" {
     command: build {
         aliases: ["b", "compile"]
         rules: {
@@ -31,11 +32,13 @@ export default function NomlPage() {
             accepts_files_as_input: false
         }
     }
-}`}</code></pre>
+}`}</code>
+            </pre>
             <p>
               NOML supports scalar values, nested objects, arrays, comments,
-              rulesets, named entries, and entry inheritance with <code>extends</code>.
-              Parsed extensions are resolved before the value is returned.
+              rulesets, named entries, and entry inheritance with{" "}
+              <code>extends</code>. Parsed extensions are resolved before the
+              value is returned.
             </p>
           </div>
         </section>
@@ -43,15 +46,17 @@ export default function NomlPage() {
           <div className="reference-label">Standalone crate</div>
           <div>
             <h2>Use NOML outside Nox.</h2>
-            <pre><code>{`cd noml
+            <pre>
+              <code>{`cd noml
 cargo build
 cargo run -- parse demo.noml
-cargo run -- check demo.noml`}</code></pre>
+cargo run -- check demo.noml`}</code>
+            </pre>
             <p>
               The <code>noml</code> package contains <code>src/lib.rs</code> for
               embedding the parser and a default CLI for parsing, checking, and
-              formatting files. It is an independent Rust project under the
-              Nox repository.
+              formatting files. It is an independent Rust project under the Nox
+              repository.
             </p>
           </div>
         </section>
@@ -59,14 +64,16 @@ cargo run -- check demo.noml`}</code></pre>
           <div className="reference-label">Formatting</div>
           <div>
             <h2>Canonical output in one command.</h2>
-            <pre><code>{`cd noml
+            <pre>
+              <code>{`cd noml
 cargo run -- format rules.noml
-cargo run --bin nomlfmt -- rules.noml`}</code></pre>
+cargo run --bin nomlfmt -- rules.noml`}</code>
+            </pre>
             <p>
               Both format commands parse and serialize the file in place. The
-              library also exposes <code>format_text</code>, <code>format_file</code>,
-              and <code>format_file_in_place</code> helpers for tools and editor
-              integrations.
+              library also exposes <code>format_text</code>,{" "}
+              <code>format_file</code>, and <code>format_file_in_place</code>{" "}
+              helpers for tools and editor integrations.
             </p>
           </div>
         </section>
@@ -87,11 +94,18 @@ cargo run --bin nomlfmt -- rules.noml`}</code></pre>
                 target="_blank"
                 rel="noreferrer"
               >
-                See the best practical NOML example: commands.noml <span>↗</span>
+                See the best practical NOML example: commands.noml{" "}
+                <span>↗</span>
               </a>
-              <Link href="/build">Read the nox.build reference <span>→</span></Link>
-              <Link href="/docs/commands">Read the command reference <span>→</span></Link>
-              <Link href="/docs/testing">Read the testing workflow <span>→</span></Link>
+              <Link href="/build">
+                Read the nox.build reference <span>→</span>
+              </Link>
+              <Link href="/docs/commands">
+                Read the command reference <span>→</span>
+              </Link>
+              <Link href="/docs/testing">
+                Read the testing workflow <span>→</span>
+              </Link>
             </div>
           </div>
         </section>

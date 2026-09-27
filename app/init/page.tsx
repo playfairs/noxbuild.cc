@@ -22,10 +22,12 @@ export default function InitPage() {
           <div className="reference-label">The command</div>
           <div>
             <h2>Initialize from the project root.</h2>
-            <pre><code>{`nox init
+            <pre>
+              <code>{`nox init
 nox init my-project
 nox init my-project --language rust --type executable
-nox init --language c --formatter`}</code></pre>
+nox init --language c --formatter`}</code>
+            </pre>
             <p>
               With no name, Nox uses the current directory. A relative name is
               created below the current directory; an absolute name is used as
@@ -59,12 +61,39 @@ nox init --language c --formatter`}</code></pre>
           <div>
             <h2>Make automation explicit.</h2>
             <div className="property-list">
-              <p><code>--name NAME</code><span>Set the generated project name.</span></p>
-              <p><code>--language LANG</code><span>Choose rust, c, cpp, haskell, d, swift, javascript, typescript, python, or fsharp.</span></p>
-              <p><code>--type TYPE</code><span>Choose executable or library.</span></p>
-              <p><code>--template NAME</code><span>Accepted by the CLI for template selection; template generation is not implemented yet.</span></p>
-              <p><code>--formatter</code><span>Generate the supported formatter config and, with Nix, a formatter helper.</span></p>
-              <p><code>--no-nix</code> / <code>--no-noxfile</code><span>Skip the generated flake or task file.</span></p>
+              <p>
+                <code>--name NAME</code>
+                <span>Set the generated project name.</span>
+              </p>
+              <p>
+                <code>--language LANG</code>
+                <span>
+                  Choose rust, c, cpp, haskell, d, swift, javascript,
+                  typescript, python, or fsharp.
+                </span>
+              </p>
+              <p>
+                <code>--type TYPE</code>
+                <span>Choose executable or library.</span>
+              </p>
+              <p>
+                <code>--template NAME</code>
+                <span>
+                  Accepted by the CLI for template selection; template
+                  generation is not implemented yet.
+                </span>
+              </p>
+              <p>
+                <code>--formatter</code>
+                <span>
+                  Generate the supported formatter config and, with Nix, a
+                  formatter helper.
+                </span>
+              </p>
+              <p>
+                <code>--no-nix</code> / <code>--no-noxfile</code>
+                <span>Skip the generated flake or task file.</span>
+              </p>
             </div>
           </div>
         </section>
@@ -72,10 +101,12 @@ nox init --language c --formatter`}</code></pre>
           <div className="reference-label">Generated shape</div>
           <div>
             <h2>A usable first build.</h2>
-            <pre><code>{`nox init hello --language c
+            <pre>
+              <code>{`nox init hello --language c
 nox setup build
 nox build
-nox run hello`}</code></pre>
+nox run hello`}</code>
+            </pre>
             <p>
               Empty projects receive a hello-world source in the language’s
               conventional location and a matching target. Rust, JavaScript,
@@ -84,8 +115,12 @@ nox run hello`}</code></pre>
               first build commands.
             </p>
             <div className="reference-links">
-              <Link href="/build">Understand the generated nox.build <span>→</span></Link>
-              <Link href="/riders">See language backends <span>→</span></Link>
+              <Link href="/build">
+                Understand the generated nox.build <span>→</span>
+              </Link>
+              <Link href="/riders">
+                See language backends <span>→</span>
+              </Link>
             </div>
           </div>
         </section>

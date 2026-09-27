@@ -29,8 +29,6 @@ const sections = [
       ["Testing", "/docs/testing"],
       ["Troubleshooting", "/docs/troubleshooting"],
       ["Development", "/docs/development"],
-      ["NoxIDE", "/docs/noxide"],
-      ["Noxical", "/docs/noxical"],
       ["NOML", "/docs/noml"],
       ["Riders", "/riders"],
       ["Runners", "/runners"],
@@ -48,9 +46,7 @@ export default function SitemapPage() {
           <br />
           <em>around Nox.</em>
         </h1>
-        <p>
-          Every public page, gathered in one place.
-        </p>
+        <p>Every public page, gathered in one place.</p>
       </div>
       <div className="reference-grid sitemap-grid">
         {sections.map((section) => (
@@ -60,7 +56,9 @@ export default function SitemapPage() {
               {section.items.map(([label, href]) => (
                 <Link href={href} key={href} className="sitemap-link">
                   <strong>{label}</strong>
-                  <span>Open page <b aria-hidden="true">→</b></span>
+                  <span>
+                    Open page <b aria-hidden="true">→</b>
+                  </span>
                 </Link>
               ))}
             </div>

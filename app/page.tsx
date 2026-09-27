@@ -1,145 +1,174 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, BookOpen, Download, TerminalSquare } from "lucide-react";
 
 const languageSupport = [
   [
-    "C",
-    "Build + run",
-    "Executables, static/shared libraries, and temporary direct-run compilation.",
+    "Native",
+    "C, C++, D, Rust",
+    "Compiled targets, libraries, dependency-aware builds",
+  ],
+  ["Managed", "Java, Kotlin, C#, Q#", "JAR and .NET-oriented build paths"],
+  [
+    "Runtime",
+    "Python, JavaScript, Ruby, F#",
+    "File handlers and runnable project targets",
   ],
   [
-    "C++",
-    "Build + run",
-    "Executables, static/shared libraries, and temporary direct-run compilation.",
-  ],
-  [
-    "Rust",
-    "Build",
-    "Executables and libraries through rustc; Cargo projects use Cargo for executables.",
-  ],
-  [
-    "D",
-    "Build + run",
-    "Executables through ldc2, dmd, or gdc, including temporary direct-run compilation.",
-  ],
-  ["Go", "Build", "Executables through the Go toolchain."],
-  ["Java", "Build", "JAR archives through javac and jar."],
-  ["C#", "Build", "Executables through csc or mcs."],
-  ["Swift", "Build", "Executables through swiftc."],
-  ["Zig", "Build", "Executables through zig."],
-  [
-    "Python",
-    "Build + run",
-    "Scripts are checked and packaged for targets, or run with Python.",
-  ],
-  [
-    "JavaScript",
-    "Build + run",
-    "Scripts are checked and packaged for targets, or run with Node.js.",
-  ],
-  [
-    "TypeScript",
-    "Build",
-    "Transpiled target output through tsc; direct file execution is not implemented.",
-  ],
-  ["Kotlin", "Build", "JAR archives through kotlinc."],
-  [
-    "F#",
-    "Run files",
-    "Direct .fsx execution through dotnet fsi; no build Rider is registered.",
-  ],
-  [
-    "Ruby",
-    "Run files",
-    "Direct .rb execution through Ruby; no build Rider is registered.",
+    "Other",
+    "Go, Swift, Zig, TypeScript",
+    "Built-in Riders with language-specific output",
   ],
 ];
 
 export default function HomePage() {
   return (
     <div className="page home-page">
-      <section className="hero section-width">
-        <div className="hero-copy">
+      <section className="home-intro">
+        <div>
           <p className="eyebrow">
             <span className="status-dot" /> The Nox Build System
           </p>
           <h1>
-            Build less.
+            Describe the work.
             <br />
-            <em>Ship more.</em>
+            <em>Let Nox order it.</em>
           </h1>
-          <p className="hero-intro">
-            Nox is a modern, declarative build system that turns project intent
-            into fast, predictable commands.
+          <p className="lede">
+            Nox is a Rust build system and task runner. It reads a project graph
+            from <code>nox.build</code>, validates the dependencies, detects the
+            required toolchain, and executes only the work needed for the
+            selected build.
           </p>
           <div className="hero-actions">
             <Link className="button button-primary" href="/docs">
-              Read the docs <span>→</span>
+              <BookOpen aria-hidden="true" size={16} /> Read the reference
             </Link>
             <Link className="button button-quiet" href="/download">
-              Download Nox <span>↓</span>
+              <Download aria-hidden="true" size={16} /> Install Nox
             </Link>
           </div>
         </div>
-        <div className="hero-art" aria-hidden="true">
-          <div className="art-ring ring-one" />
-          <div className="art-ring ring-two" />
+        <div className="home-mark" aria-hidden="true">
           <Image
-            className="art-logo"
             src="/assets/nox-Icon.svg"
-            alt="Nox logo"
-            width={275}
-            height={222}
+            alt=""
+            width={260}
+            height={210}
             priority
           />
-          <div className="art-caption">noxfile + nox.build</div>
+          <span>nox.build / noxfile</span>
         </div>
       </section>
-      <section className="inspiration-section section-width">
-        <div className="inspiration-content">
-          <h2>Built on the shoulders of giants</h2>
-          <p>
-            Nox is inspirationally a hybrid of how{" "}
-            <a href="https://just.systems" target="_blank" rel="noreferrer">
-              justfile
-            </a>{" "}
-            and{" "}
-            <a href="https://mesonbuild.com" target="_blank" rel="noreferrer">
-              meson.build
-            </a>{" "}
-            work, combining the task automation simplicity of just with the
-            declarative build graph power of meson. Nox aims to be a perfect
-            hybrid replacing the need for any other build system.
-          </p>
+      <section className="quickstart" aria-labelledby="quickstart-heading">
+        <div className="section-title">
+          <p className="eyebrow">First build</p>
+          <h2 id="quickstart-heading">Four commands, one durable loop.</h2>
+        </div>
+        <div className="quickstart-code">
+          <div>
+            <span>01</span>
+            <code>nox init hello --language c</code>
+            <p>
+              Create a starting project, or write <code>nox.build</code>{" "}
+              yourself.
+            </p>
+          </div>
+          <div>
+            <span>02</span>
+            <code>cd hello && nox setup build</code>
+            <p>Parse the project and record its build state and toolchain.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <code>nox build -C build -j8</code>
+            <p>Validate and execute targets in dependency order.</p>
+          </div>
+          <div>
+            <span>04</span>
+            <code>nox run -C build</code>
+            <p>
+              Build the selected executable, then forward any arguments after{" "}
+              <code>--</code>.
+            </p>
+          </div>
         </div>
       </section>
-      <section className="support-section section-width">
-        <div className="support-heading">
-          <p className="eyebrow">Language support</p>
-          <h2>
-            Build broadly.
-            <br />
-            <em>Run deliberately.</em>
+      <section className="working-model" aria-labelledby="model-heading">
+        <div className="section-title">
+          <p className="eyebrow">How it works</p>
+          <h2 id="model-heading">
+            A project file, a task file, distinct responsibilities.
           </h2>
+        </div>
+        <div className="model-grid">
+          <article>
+            <span className="model-number">01</span>
+            <h3>Declare</h3>
+            <p>
+              <code>nox.build</code> defines projects, targets, sources, flags,
+              dependencies, metadata, and installation intent. It is the build
+              graph, not a shell script.
+            </p>
+            <Link href="/build">
+              Read the nox.build guide{" "}
+              <ArrowRight aria-hidden="true" size={15} />
+            </Link>
+          </article>
+          <article>
+            <span className="model-number">02</span>
+            <h3>Configure</h3>
+            <p>
+              <code>nox setup</code> finds the project root, parses the
+              declarations, detects native tools, and writes state for a debug
+              or release configuration.
+            </p>
+            <Link href="/docs/toolchains">
+              Understand toolchain detection{" "}
+              <ArrowRight aria-hidden="true" size={15} />
+            </Link>
+          </article>
+          <article>
+            <span className="model-number">03</span>
+            <h3>Automate</h3>
+            <p>
+              An optional <code>noxfile</code> contains named tasks. Tasks can
+              depend on other tasks or Nox commands, run shell commands, and
+              interpolate project values.
+            </p>
+            <Link href="/tasks">
+              Read the noxfile guide <ArrowRight aria-hidden="true" size={15} />
+            </Link>
+          </article>
+        </div>
+      </section>
+      <section className="support-section" aria-labelledby="support-heading">
+        <div className="section-title">
+          <p className="eyebrow">Built-in backends</p>
+          <h2 id="support-heading">The graph stays language-neutral.</h2>
           <p>
-            Nox currently supports the languages below at the levels implemented
-            by its Riders and file handlers.
+            Nox selects a Rider from source extensions, then keeps dependency
+            traversal and build state independent of the compiler being used.
           </p>
         </div>
         <div className="support-table">
           <div className="support-table-head">
-            <span>Language</span>
-            <span>Level</span>
-            <span>What Nox does</span>
+            <span>Family</span>
+            <span>Languages</span>
+            <span>Role</span>
           </div>
-          {languageSupport.map(([language, level, description]) => (
-            <div className="support-row" key={language}>
-              <strong>{language}</strong>
-              <span className="support-level">{level}</span>
-              <span>{description}</span>
+          {languageSupport.map(([family, languages, role]) => (
+            <div className="support-row" key={family}>
+              <strong>{family}</strong>
+              <span className="support-level">{languages}</span>
+              <span>{role}</span>
             </div>
           ))}
         </div>
+        <Link className="inline-link" href="/riders">
+          <TerminalSquare aria-hidden="true" size={16} /> Browse Riders and
+          Runners <ArrowRight aria-hidden="true" size={15} />
+        </Link>
       </section>
     </div>
   );

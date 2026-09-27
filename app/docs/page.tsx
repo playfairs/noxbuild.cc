@@ -125,7 +125,8 @@ nox compile -C build`}</code>
                 Open the complete Commands &amp; Flags reference <span>→</span>
               </Link>
               <Link href="/init">
-                Learn how <code>nox init</code> scaffolds projects <span>→</span>
+                Learn how <code>nox init</code> scaffolds projects{" "}
+                <span>→</span>
               </Link>
             </div>
           </div>
@@ -167,8 +168,12 @@ nox compile -C build`}</code>
               and installation are supported.
             </p>
             <div className="reference-links">
-              <Link href="/riders">Riders <span>→</span></Link>
-              <Link href="/runners">Runners <span>→</span></Link>
+              <Link href="/riders">
+                Riders <span>→</span>
+              </Link>
+              <Link href="/runners">
+                Runners <span>→</span>
+              </Link>
             </div>
           </div>
         </section>
@@ -178,20 +183,30 @@ nox compile -C build`}</code>
             <h2>The parts behind the command.</h2>
             <p>
               Go deeper into Nox&apos;s build pipeline, compiler detection,
-              project workflows, contributor testing, and NOML. The ecosystem
-              pages cover the graphical NoxIDE editor and the Noxical lexer
-              library.
+              project workflows, contributor testing, and NOML.
             </p>
             <div className="reference-links">
-              <Link href="/docs/architecture">Architecture <span>→</span></Link>
-              <Link href="/docs/toolchains">Toolchains <span>→</span></Link>
-              <Link href="/docs/workflows">Workflows <span>→</span></Link>
-              <Link href="/docs/testing">Testing <span>→</span></Link>
-              <Link href="/docs/troubleshooting">Troubleshooting <span>→</span></Link>
-              <Link href="/docs/development">Development <span>→</span></Link>
-              <Link href="/docs/noxide">NoxIDE <span>→</span></Link>
-              <Link href="/docs/noxical">Noxical <span>→</span></Link>
-              <Link href="/docs/noml">NOML <span>→</span></Link>
+              <Link href="/docs/architecture">
+                Architecture <span>→</span>
+              </Link>
+              <Link href="/docs/toolchains">
+                Toolchains <span>→</span>
+              </Link>
+              <Link href="/docs/workflows">
+                Workflows <span>→</span>
+              </Link>
+              <Link href="/docs/testing">
+                Testing <span>→</span>
+              </Link>
+              <Link href="/docs/troubleshooting">
+                Troubleshooting <span>→</span>
+              </Link>
+              <Link href="/docs/development">
+                Development <span>→</span>
+              </Link>
+              <Link href="/docs/noml">
+                NOML <span>→</span>
+              </Link>
             </div>
           </div>
         </section>

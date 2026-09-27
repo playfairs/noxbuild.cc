@@ -21,16 +21,21 @@ export default function BuildFilePage() {
             <h2>The Nox project file.</h2>
             <pre>
               <code>{`project "nox" {
-    version = file("./VERSION")
-    description = "The Nox Build System."
-    license = "Unlicense"
-    edition = "1"
-    dependencies = []
-    version_files = ["Cargo.toml", "VERSION"]
+    description = "The Nox Build & Automation System."
     repository = "https://github.com/playfairs/nox"
     website = "https://noxbuild.cc"
     authors = ["playfairs", "invra"]
     maintainers = ["playfairs <root@playfairs.cc>"]
+
+    version = file("./VERSION")
+    license = file("./UNLICENSE")
+    version_files = ["Cargo.toml", "VERSION"]
+    edition = "1"
+    dependencies = []
+
+    extra.env {
+        RUST_BACKTRACE = "full"
+    }
 
     executable.rust "nox" {
         sources = ["src/main.rs"]
@@ -101,7 +106,8 @@ export default function BuildFilePage() {
           <div className="reference-label">Project settings</div>
           <div>
             <h2>Keep values reusable.</h2>
-            <pre><code>{`set windows-shell := ["powershell.exe", "-NoProfile", "-Command"]
+            <pre>
+              <code>{`set windows-shell := ["powershell.exe", "-NoProfile", "-Command"]
 version := \`cargo xtask\`
 
 project "example" {
@@ -112,7 +118,8 @@ project "example" {
         sources = sources
         flags = warnings
     }
-}`}</code></pre>
+}`}</code>
+            </pre>
             <p className="muted-copy">
               Top-level settings support <code>set NAME := VALUE</code> and
               <code>NAME := VALUE</code>. Backtick values run through the
@@ -126,10 +133,31 @@ project "example" {
           <div>
             <h2>Choose the shape of the artifact.</h2>
             <div className="property-list">
-              <p><code>executable</code><span>Generic executable whose Rider is selected from its source.</span></p>
-              <p><code>executable.&lt;language&gt;</code><span>Explicit language-qualified executable, such as <code>executable.rust</code> or <code>executable.cpp</code>.</span></p>
-              <p><code>static_library</code> / <code>shared_library</code><span>Archives objects or links a shared library. <code>static</code> and <code>shared</code> are accepted aliases.</span></p>
-              <p><code>rust_library</code><span>Builds a Rust library target.</span></p>
+              <p>
+                <code>executable</code>
+                <span>
+                  Generic executable whose Rider is selected from its source.
+                </span>
+              </p>
+              <p>
+                <code>executable.&lt;language&gt;</code>
+                <span>
+                  Explicit language-qualified executable, such as{" "}
+                  <code>executable.rust</code> or <code>executable.cpp</code>.
+                </span>
+              </p>
+              <p>
+                <code>static_library</code> / <code>shared_library</code>
+                <span>
+                  Archives objects or links a shared library.{" "}
+                  <code>static</code> and <code>shared</code> are accepted
+                  aliases.
+                </span>
+              </p>
+              <p>
+                <code>rust_library</code>
+                <span>Builds a Rust library target.</span>
+              </p>
             </div>
             <p className="muted-copy">
               Generic Rider targets use the first source file to select the
@@ -163,10 +191,22 @@ nox install --prefix "$HOME/.local"`}</code>
           <div>
             <h2>Describe the project once.</h2>
             <div className="property-list">
-              <p><code>repository</code><span>Source repository URL.</span></p>
-              <p><code>website</code><span>Project website URL.</span></p>
-              <p><code>authors</code><span>List of project authors.</span></p>
-              <p><code>maintainers</code><span>List of current maintainers and contact details.</span></p>
+              <p>
+                <code>repository</code>
+                <span>Source repository URL.</span>
+              </p>
+              <p>
+                <code>website</code>
+                <span>Project website URL.</span>
+              </p>
+              <p>
+                <code>authors</code>
+                <span>List of project authors.</span>
+              </p>
+              <p>
+                <code>maintainers</code>
+                <span>List of current maintainers and contact details.</span>
+              </p>
             </div>
           </div>
         </section>
@@ -174,7 +214,8 @@ nox install --prefix "$HOME/.local"`}</code>
           <div className="reference-label">Multiple projects</div>
           <div>
             <h2>One file can name several projects.</h2>
-            <pre><code>{`project "nox" {
+            <pre>
+              <code>{`project "nox" {
     executable.rust "nox" {
         sources = ["src/main.rs"]
     }
@@ -184,7 +225,8 @@ project "noml" {
     executable.rust "noml" {
         sources = ["noml/src/main.rs"]
     }
-}`}</code></pre>
+}`}</code>
+            </pre>
             <p className="muted-copy">
               When more than one project is declared, specify the project for
               commands that operate on one project: <code>nox stat nox</code>,
