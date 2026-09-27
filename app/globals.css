@@ -560,6 +560,15 @@ main {
 .reference-links span {
   margin-left: 5px;
 }
+.official-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+.official-links .button {
+  font-size: 12px;
+}
 .command-list {
   display: grid;
   margin-top: 20px;

@@ -100,20 +100,20 @@ export default function AboutPage() {
             <>
               What Nox does,
               <br />
-              <em>without the jargon.</em>
+              <em>for non-programmers.</em>
             </>
           ) : (
             <>
-              A build system
+              What Nox does,
               <br />
-              <em>that explains itself.</em>
+              <em>for programmers.</em>
             </>
           )}
         </h1>
         <p>
           {dummyMode
-            ? "This page assumes you have never used a terminal, compiler, or build tool. The ideas are the same; only the language changes."
-            : "Nox turns a declared project plan into ordered build work, while keeping everyday project chores in a separate, simple task file."}
+            ? "This page assumes you have never used a terminal, compiler, or build system. The ideas are the same; just dumbed down."
+            : "This page assumes you have used a terminal, compiler, or build system before. The ideas are the same; just formatted for programmers."}
         </p>
       </div>
       <div className="reference-grid about-grid">
@@ -133,7 +133,7 @@ export default function AboutPage() {
           <div>
             <h2>
               {dummyMode
-                ? "You can start small."
+                ? "Baby steps are okay."
                 : "Move from concepts to a project."}
             </h2>
             <p>

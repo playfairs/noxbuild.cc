@@ -50,7 +50,7 @@ export default function RidersPage() {
       <div className="page-intro">
         <p className="eyebrow">Toolchain backends</p>
         <h1>
-          Meet the
+          On one hand,
           <br />
           <em>Riders.</em>
         </h1>

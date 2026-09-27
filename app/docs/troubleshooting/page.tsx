@@ -8,7 +8,7 @@ const cases = [
     "Run `nox setup build` before `nox build`. Source edits do not require setup, but build-directory, toolchain, and configuration changes do.",
   ],
   [
-    "Compiler not found",
+    "Rider not found",
     "Install the required tool and make sure it is visible through PATH. Native detection checks cc, clang, gcc, c++, clang++, g++, ar, and llvm-ar in that order.",
   ],
   [
@@ -43,9 +43,9 @@ export default function TroubleshootingPage() {
       <div className="page-intro">
         <p className="eyebrow">Recovery guide</p>
         <h1>
-          When the build
+          When Nox
           <br />
-          <em>pushes back.</em>
+          <em>fights back.</em>
         </h1>
         <p>
           Common Nox failures, what they mean, and the smallest useful next

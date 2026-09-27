@@ -29,7 +29,7 @@ export default function RunnersPage() {
       <div className="page-intro">
         <p className="eyebrow">Direct-file execution</p>
         <h1>
-          The other half:
+          On the other hand,
           <br />
           <em>Runners.</em>
         </h1>

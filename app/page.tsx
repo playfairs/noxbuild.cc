@@ -63,9 +63,7 @@ export default function HomePage() {
       <section className="quickstart" aria-labelledby="quickstart-heading">
         <div className="section-title">
           <p className="eyebrow">First build</p>
-          <h2 id="quickstart-heading">For a new project
-            
-            .</h2>
+          <h2 id="quickstart-heading">For a new project.</h2>
         </div>
         <div className="quickstart-code">
           <div>
